@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/brixou/Documents/IdeaProject/scrumbox/app/build/intermediates/exploded-aar/com.couchbase.lite/couchbase-lite-android/1.0.2/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="adcc7c8d67dd73b6666a85ac8d0d7a9afcd1564d">
+        <dex dex="/Users/brixou/Documents/IdeaProject/scrumbox/app/build/intermediates/pre-dexed/debug/classes-b583dade241896b27a5e800a92528b9e5e5fd672.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/com.couchbase.lite/couchbase-lite-java-core/1.0.2/fe2b420eace015de4b639de21ef8814ab749475e/couchbase-lite-java-core-1.0.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="fe2b420eace015de4b639de21ef8814ab749475e">
+        <dex dex="/Users/brixou/Documents/IdeaProject/scrumbox/app/build/intermediates/pre-dexed/debug/couchbase-lite-java-core-1.0.2-8f51b6bd90ef819805d5343a363bc66e43038eee.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.codehaus.jackson/jackson-core-asl/1.9.2/8493982bba1727106d767034bd0d8e77bc1931a9/jackson-core-asl-1.9.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8493982bba1727106d767034bd0d8e77bc1931a9">
+        <dex dex="/Users/brixou/Documents/IdeaProject/scrumbox/app/build/intermediates/pre-dexed/debug/jackson-core-asl-1.9.2-25e964c95939bee5648f46a49953b83beebf783e.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.codehaus.jackson/jackson-mapper-asl/1.9.2/95400a7922ce75383866eb72f6ef4a7897923945/jackson-mapper-asl-1.9.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="95400a7922ce75383866eb72f6ef4a7897923945">
+        <dex dex="/Users/brixou/Documents/IdeaProject/scrumbox/app/build/intermediates/pre-dexed/debug/jackson-mapper-asl-1.9.2-7d5d5cb1a8c9e4b4eef103de292055277b659555.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/brixou/Documents/IdeaProject/scrumbox/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-90eaa329c0a1e9530db6d9f275d3cd4e44245055.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/Documents/IdeaProject/scrumbox/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/brixou/Documents/IdeaProject/scrumbox/app/build/intermediates/pre-dexed/debug/classes-861c6d5f55ccef2aaf7ee25619e07eedd3591f33.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/Documents/IdeaProject/scrumbox/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/brixou/Documents/IdeaProject/scrumbox/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-67e46a1339dacaaf362d3ae64fe7b6ad51ddd5c1.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/Documents/IdeaProject/scrumbox/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/brixou/Documents/IdeaProject/scrumbox/app/build/intermediates/pre-dexed/debug/classes-4cfb6489e1a12580237c75101bc7566132f7463e.jar" />
+    </item>
+
+</items>
