@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab8c8a3b-3f99-45bc-9638-8f1f10db6de8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="ab8c8a3b-3f99-45bc-9638-8f1f10db6de8" name="Default" comment="" />
     <ignored path="ScrumBox.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -1019,8 +1015,8 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="73" />
-    <option name="y" value="35" />
+    <option name="x" value="58" />
+    <option name="y" value="23" />
     <option name="width" value="1863" />
     <option name="height" value="1057" />
   </component>
@@ -1276,7 +1272,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="73" y="35" width="1863" height="1057" extended-state="6" />
+    <frame x="58" y="23" width="1863" height="1057" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
