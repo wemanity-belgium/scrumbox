@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
     private CountDownTimer countDownTimer;
     private CountDown countDown = null;
 
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
