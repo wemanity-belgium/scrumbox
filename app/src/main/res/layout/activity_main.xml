@@ -13,20 +13,19 @@
     android:weightSum="4">
 
     <Space
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_gravity="center"
         android:background="@android:color/black"/>
 
     <view
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         class="com.wemanity.scrumbox.android.gui.widget.CountDownView"
         android:id="@+id/countDownView"
-        android:layout_gravity="center"
-        android:columnCount="1" />
+        android:columnCount="1"
+        android:layout_gravity="center" />
 
     <Space
         android:layout_width="match_parent"

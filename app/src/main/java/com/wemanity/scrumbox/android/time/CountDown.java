@@ -23,10 +23,10 @@ import android.os.SystemClock;
  *  }.start();
  * </pre>
  *
- * The calls to {@link #onTick(long)} are synchronized to this object so that
- * one call to {@link #onTick(long)} won't ever occur before the previous
+ * The calls to {@link #onTick(TimeFrame)} are synchronized to this object so that
+ * one call to {@link #onTick(TimeFrame)} won't ever occur before the previous
  * callback is complete.  This is only relevant when the implementation of
- * {@link #onTick(long)} takes an amount of time to execute that is significant
+ * {@link #onTick(TimeFrame)} takes an amount of time to execute that is significant
  * compared to the countdown interval.
  */
 public abstract class CountDown {
@@ -41,24 +41,26 @@ public abstract class CountDown {
      */
     private final long mCountdownInterval;
 
-    private long mStopTimeInFuture;
     private long mStartTime;
-    private long mStopTime;
+    private long duration;
 
     /**
      * boolean representing if the timer was cancelled
      */
     private boolean mStop = false;
 
+    private boolean mStart = false;
+
     /**
      * @param millisInFuture The number of millis in the future from the call
      *   to {@link #start()}
      * @param countDownInterval The interval along the way to receive
-     *   {@link #onTick(long)} callbacks.
+     *   {@link #onTick(TimeFrame)} callbacks.
      */
     public CountDown(long millisInFuture, long countDownInterval) {
         mMillisInFuture = millisInFuture;
         mCountdownInterval = countDownInterval;
+        mStart = false;
     }
 
     /**
@@ -67,7 +69,16 @@ public abstract class CountDown {
     public synchronized final void stop() {
         mStop = true;
         mHandler.removeMessages(MSG);
-        onFinish(mStopTime - mStartTime);
+        onFinish(new TimeFrame(duration));
+    }
+
+    public synchronized final void pause(){
+        mStart = false;
+        mHandler.removeMessages(MSG);
+    }
+
+    public boolean isStart() {
+        return mStart;
     }
 
     /**
@@ -76,11 +87,11 @@ public abstract class CountDown {
     public synchronized final CountDown start() {
 
         if (mMillisInFuture <= 0) {
-            onFinish(0);
+            onFinish(new TimeFrame(0));
             return this;
         }
         mStartTime = SystemClock.elapsedRealtime();
-        mStopTimeInFuture = mStartTime + mMillisInFuture;
+        mStart = true;
         mHandler.sendMessage(mHandler.obtainMessage(MSG));
         return this;
     }
@@ -90,9 +101,9 @@ public abstract class CountDown {
      * Callback fired on regular interval.
      * @param millisUntilFinished The amount of time until finished.
      */
-    public abstract void onTick(long millisUntilFinished);
+    public abstract void onTick(TimeFrame millisUntilFinished);
 
-    public abstract void onFinish(long duration);
+    public abstract void onFinish(TimeFrame duration);
 
     private static final int MSG = 1000;
 
@@ -103,14 +114,14 @@ public abstract class CountDown {
         public void handleMessage(Message msg) {
 
             synchronized (CountDown.this) {
-                if (mStop) {
+                if (mStop || !mStart) {
                     return;
                 }
-                mStopTime = SystemClock.elapsedRealtime();
-                final long millisLeft = mStopTimeInFuture - mStopTime;
-
+                long stopTime = SystemClock.elapsedRealtime();
+                final long millisSpent = stopTime - mStartTime;
+                duration += millisSpent;
                 long lastTickStart = SystemClock.elapsedRealtime();
-                onTick(millisLeft);
+                onTick(new TimeFrame(mMillisInFuture - duration));
                 // take into account user's onTick taking time to execute
                 long delay = lastTickStart + mCountdownInterval - SystemClock.elapsedRealtime();
 
@@ -120,6 +131,7 @@ public abstract class CountDown {
 
                 sendMessageDelayed(obtainMessage(MSG), delay);
 
+                mStartTime = stopTime;
             }
         }
     };

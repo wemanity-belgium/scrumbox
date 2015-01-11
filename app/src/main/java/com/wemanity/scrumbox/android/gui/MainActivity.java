@@ -14,39 +14,10 @@ import com.wemanity.scrumbox.android.R;
 
 public class MainActivity extends Activity {
 
-    private Button startButton;
-    private TextView timeTextView;
-    private CountDownTimer countDownTimer;
-    private CountDown countDown = null;
-
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*timeTextView = (TextView) findViewById(R.id.timeTextView);
-        startButton = (Button) findViewById(R.id.startButton);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (countDown == null) {
-                    ((Button)v).setText("Stop");
-                    final BigDecimal delay = new BigDecimal(1000);
-                    countDown = new CountDown(3000, 100) {
-
-                        public void onTick(long millisUntilFinished) {
-                            timeTextView.setText("seconds remaining: " + new BigDecimal(millisUntilFinished).divide(delay).setScale(2, RoundingMode.HALF_UP));
-                        }
-
-                    }.start();
-                } else {
-                    countDown.stop();
-                    countDown = null;
-                    ((Button)v).setText("Start");
-                }
-
-            }
-        });*/
     }
 
 
