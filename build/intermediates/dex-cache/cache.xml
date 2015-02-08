@@ -2,6 +2,27 @@
 <items version="2" >
 
     <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/3.2.11.RELEASE/2f462ade996c2d7fa37271feb1b9b5efffa59792/spring-webmvc-3.2.11.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2f462ade996c2d7fa37271feb1b9b5efffa59792">
+        <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/spring-webmvc-3.2.11.RELEASE-6d26af449b7f8715376b2cb538c861e582376e18.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/3.2.11.RELEASE/77ada14cc181dacb62de4fdf5adabc9f1892c4d2/spring-web-3.2.11.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="77ada14cc181dacb62de4fdf5adabc9f1892c4d2">
+        <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/spring-web-3.2.11.RELEASE-9cbfae09fcca0ff0698e57a1ef3177d3bc69109d.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.freemarker/freemarker/2.3.20/5ad6bea46b5af666d88c260c8acc6a03408723c8/freemarker-2.3.20.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="5ad6bea46b5af666d88c260c8acc6a03408723c8">
+        <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/freemarker-2.3.20-c0962232f2f5ddd7655d11d3c2a75bcfcd9b3644.jar" />
+    </item>
+    <item
         jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.springframework.android/spring-android-rest-template/1.0.1.RELEASE/e132d929bd181941f79b0d63edafb8a86ae6fd33/spring-android-rest-template-1.0.1.RELEASE.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -9,11 +30,53 @@
         <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/spring-android-rest-template-1.0.1.RELEASE-ed9cbf8cba8e3853f47d16379aaceb9e6fe91743.jar" />
     </item>
     <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/3.2.11.RELEASE/470020b04f4491b27e07d1ae2e83d707fabd72ca/spring-aop-3.2.11.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="470020b04f4491b27e07d1ae2e83d707fabd72ca">
+        <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/spring-aop-3.2.11.RELEASE-494742e741632fa781dd6e5de2343307ad9c6873.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/de.greenrobot/greendao-generator/1.3.1/2f757df97b422e40bf99f71094e5d105c98f32e7/greendao-generator-1.3.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2f757df97b422e40bf99f71094e5d105c98f32e7">
+        <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/greendao-generator-1.3.1-388724f23e367f748a0fa024a5edd268e3b89aa7.jar" />
+    </item>
+    <item
         jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.codehaus.jackson/jackson-mapper-asl/1.9.2/95400a7922ce75383866eb72f6ef4a7897923945/jackson-mapper-asl-1.9.2.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="95400a7922ce75383866eb72f6ef4a7897923945">
         <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/jackson-mapper-asl-1.9.2-7d5d5cb1a8c9e4b4eef103de292055277b659555.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/3.2.11.RELEASE/2902e7f1b3d669e134f83d85d964c0e5bf5d7c7b/spring-expression-3.2.11.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2902e7f1b3d669e134f83d85d964c0e5bf5d7c7b">
+        <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/spring-expression-3.2.11.RELEASE-87d3b3a035bf19aadeeefdc346de9ba3ad372d1e.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/3.2.11.RELEASE/5f2645e4801907ce1ffea54eaebf79cdb58a1fa2/spring-core-3.2.11.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="5f2645e4801907ce1ffea54eaebf79cdb58a1fa2">
+        <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/spring-core-3.2.11.RELEASE-622076a96d0cf29bdabec4b48b4bc6cc61283552.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.springframework.mobile/spring-mobile-device/1.1.3.RELEASE/d2e419ade32355682ceb8a696cbeb448f660ede2/spring-mobile-device-1.1.3.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d2e419ade32355682ceb8a696cbeb448f660ede2">
+        <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/spring-mobile-device-1.1.3.RELEASE-d41d17a9acc00df2f18239d5635799ca97aecc87.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/3.2.11.RELEASE/d223389e994ed74d03c35db8e8554aa461410468/spring-context-3.2.11.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d223389e994ed74d03c35db8e8554aa461410468">
+        <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/spring-context-3.2.11.RELEASE-7ff17ed89c07479dd8bc9f41dcd3a4ff9f994fdc.jar" />
     </item>
     <item
         jar="/Users/brixou/workspace/scrumbox/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/18.0.0/classes.jar"
@@ -37,6 +100,13 @@
         <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/jackson-core-asl-1.9.2-25e964c95939bee5648f46a49953b83beebf783e.jar" />
     </item>
     <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/aopalliance/aopalliance/1.0/235ba8b489512805ac13a8f9ea77a1ca5ebe3e8/aopalliance-1.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0235ba8b489512805ac13a8f9ea77a1ca5ebe3e8">
+        <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/aopalliance-1.0-ed95e6137d5b0febc6f72c362f603689174ef2c7.jar" />
+    </item>
+    <item
         jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.springframework.android/spring-android-core/1.0.1.RELEASE/e68f0e8e4b636ee30c4de58953be38d9b72a5e3b/spring-android-core-1.0.1.RELEASE.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -49,6 +119,13 @@
         revision="21.1.2"
         sha1="dda08161d004c4df96938da6909f1c2b96cd33c8">
         <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/greendao-1.3.7-36102a1460ba398146195ed21c3682da9aed68c9.jar" />
+    </item>
+    <item
+        jar="/Users/brixou/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/3.2.11.RELEASE/f760312c99e7c172fd6611aeb7c2d18e586d4568/spring-beans-3.2.11.RELEASE.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f760312c99e7c172fd6611aeb7c2d18e586d4568">
+        <dex dex="/Users/brixou/workspace/scrumbox/app/build/intermediates/pre-dexed/debug/spring-beans-3.2.11.RELEASE-fbdc77f70dda87a48c51cecda7f248371926d44c.jar" />
     </item>
     <item
         jar="/Users/brixou/workspace/scrumbox/app/build/intermediates/exploded-aar/com.couchbase.lite/couchbase-lite-android/1.0.2/classes.jar"
