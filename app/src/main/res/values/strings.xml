@@ -2,7 +2,15 @@
 <resources>
 
     <string name="app_name">ScrumBox</string>
-
-
+    <string name="recent_activity">Recent activity</string>
+    <string name="new_daily">Add a new daily metting</string>
+    <string name="new_member">Add a new scrum team member</string>
+    <string name="nickname">Nickname : </string>
+    <string name="avatar">Avatar :</string>
+    <string-array name="list_module">
+        <item>Daily</item>
+        <item>Scrum Poker</item>
+        <item>Member</item>
+    </string-array>
 
 </resources>

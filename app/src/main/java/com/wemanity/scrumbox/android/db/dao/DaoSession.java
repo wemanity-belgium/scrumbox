@@ -9,12 +9,12 @@ import de.greenrobot.dao.AbstractDaoSession;
 import de.greenrobot.dao.identityscope.IdentityScopeType;
 import de.greenrobot.dao.internal.DaoConfig;
 
-import com.wemanity.scrumbox.android.db.dao.impl.DailyGreenDao;
-import com.wemanity.scrumbox.android.db.dao.impl.DailyOccurrenceGreenDao;
-import com.wemanity.scrumbox.android.db.dao.impl.MemberGreenDao;
-import com.wemanity.scrumbox.android.db.dao.impl.ParticipantGreenDao;
-import com.wemanity.scrumbox.android.db.dao.impl.ParticipationGreenDao;
-import com.wemanity.scrumbox.android.db.dao.impl.RoleGreenDao;
+import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
+import com.wemanity.scrumbox.android.db.dao.impl.DailyOccurrenceDao;
+import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
+import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
+import com.wemanity.scrumbox.android.db.dao.impl.ParticipationDao;
+import com.wemanity.scrumbox.android.db.dao.impl.RoleDao;
 import com.wemanity.scrumbox.android.db.entity.Daily;
 import com.wemanity.scrumbox.android.db.entity.Role;
 import com.wemanity.scrumbox.android.db.entity.Member;
@@ -38,41 +38,41 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig dailyOccurrenceDaoConfig;
     private final DaoConfig participationDaoConfig;
 
-    private final DailyGreenDao dailyDao;
-    private final RoleGreenDao roleDao;
-    private final MemberGreenDao memberDao;
-    private final ParticipantGreenDao participantDao;
-    private final DailyOccurrenceGreenDao dailyOccurrenceDao;
-    private final ParticipationGreenDao participationDao;
+    private final DailyDao dailyDao;
+    private final RoleDao roleDao;
+    private final MemberDao memberDao;
+    private final ParticipantDao participantDao;
+    private final DailyOccurrenceDao dailyOccurrenceDao;
+    private final ParticipationDao participationDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
         super(db);
 
-        dailyDaoConfig = daoConfigMap.get(DailyGreenDao.class).clone();
+        dailyDaoConfig = daoConfigMap.get(DailyDao.class).clone();
         dailyDaoConfig.initIdentityScope(type);
 
-        roleDaoConfig = daoConfigMap.get(RoleGreenDao.class).clone();
+        roleDaoConfig = daoConfigMap.get(RoleDao.class).clone();
         roleDaoConfig.initIdentityScope(type);
 
-        memberDaoConfig = daoConfigMap.get(MemberGreenDao.class).clone();
+        memberDaoConfig = daoConfigMap.get(MemberDao.class).clone();
         memberDaoConfig.initIdentityScope(type);
 
-        participantDaoConfig = daoConfigMap.get(ParticipantGreenDao.class).clone();
+        participantDaoConfig = daoConfigMap.get(ParticipantDao.class).clone();
         participantDaoConfig.initIdentityScope(type);
 
-        dailyOccurrenceDaoConfig = daoConfigMap.get(DailyOccurrenceGreenDao.class).clone();
+        dailyOccurrenceDaoConfig = daoConfigMap.get(DailyOccurrenceDao.class).clone();
         dailyOccurrenceDaoConfig.initIdentityScope(type);
 
-        participationDaoConfig = daoConfigMap.get(ParticipationGreenDao.class).clone();
+        participationDaoConfig = daoConfigMap.get(ParticipationDao.class).clone();
         participationDaoConfig.initIdentityScope(type);
 
-        dailyDao = new DailyGreenDao(dailyDaoConfig, this);
-        roleDao = new RoleGreenDao(roleDaoConfig, this);
-        memberDao = new MemberGreenDao(memberDaoConfig, this);
-        participantDao = new ParticipantGreenDao(participantDaoConfig, this);
-        dailyOccurrenceDao = new DailyOccurrenceGreenDao(dailyOccurrenceDaoConfig, this);
-        participationDao = new ParticipationGreenDao(participationDaoConfig, this);
+        dailyDao = new DailyDao(dailyDaoConfig, this);
+        roleDao = new RoleDao(roleDaoConfig, this);
+        memberDao = new MemberDao(memberDaoConfig, this);
+        participantDao = new ParticipantDao(participantDaoConfig, this);
+        dailyOccurrenceDao = new DailyOccurrenceDao(dailyOccurrenceDaoConfig, this);
+        participationDao = new ParticipationDao(participationDaoConfig, this);
 
         registerDao(Daily.class, dailyDao);
         registerDao(Role.class, roleDao);
@@ -91,27 +91,27 @@ public class DaoSession extends AbstractDaoSession {
         participationDaoConfig.getIdentityScope().clear();
     }
 
-    public DailyGreenDao getDailyDao() {
+    public DailyDao getDailyDao() {
         return dailyDao;
     }
 
-    public RoleGreenDao getRoleDao() {
+    public RoleDao getRoleDao() {
         return roleDao;
     }
 
-    public MemberGreenDao getMemberDao() {
+    public MemberDao getMemberDao() {
         return memberDao;
     }
 
-    public ParticipantGreenDao getParticipantDao() {
+    public ParticipantDao getParticipantDao() {
         return participantDao;
     }
 
-    public DailyOccurrenceGreenDao getDailyOccurrenceDao() {
+    public DailyOccurrenceDao getDailyOccurrenceDao() {
         return dailyOccurrenceDao;
     }
 
-    public ParticipationGreenDao getParticipationDao() {
+    public ParticipationDao getParticipationDao() {
         return participationDao;
     }
 

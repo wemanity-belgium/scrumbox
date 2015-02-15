@@ -2,9 +2,9 @@ package com.wemanity.scrumbox.android.db.entity;
 
 import java.util.List;
 
-import com.wemanity.scrumbox.android.db.dao.impl.DailyOccurrenceGreenDao;
+import com.wemanity.scrumbox.android.db.dao.impl.DailyOccurrenceDao;
 import com.wemanity.scrumbox.android.db.dao.DaoSession;
-import com.wemanity.scrumbox.android.db.dao.impl.ParticipationGreenDao;
+import com.wemanity.scrumbox.android.db.dao.impl.ParticipationDao;
 
 import de.greenrobot.dao.DaoException;
 
@@ -22,7 +22,7 @@ public class DailyOccurrence {
     private transient DaoSession daoSession;
 
     /** Used for active entity operations. */
-    private transient DailyOccurrenceGreenDao myDao;
+    private transient DailyOccurrenceDao myDao;
 
     private List<Participation> participations;
 
@@ -75,7 +75,7 @@ public class DailyOccurrence {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
-            ParticipationGreenDao targetDao = daoSession.getParticipationDao();
+            ParticipationDao targetDao = daoSession.getParticipationDao();
             List<Participation> participationsNew = targetDao._queryDailyOccurrence_Participations(id);
             synchronized (this) {
                 if(participations == null) {

@@ -1,10 +1,10 @@
 package com.wemanity.scrumbox.android.db.entity;
 
-import com.wemanity.scrumbox.android.db.dao.DaoSession;
-import com.wemanity.scrumbox.android.db.dao.impl.DailyGreenDao;
-import com.wemanity.scrumbox.android.db.dao.impl.ParticipantGreenDao;
-
 import java.util.List;
+
+import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
+import com.wemanity.scrumbox.android.db.dao.DaoSession;
+import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
 
 import de.greenrobot.dao.DaoException;
 
@@ -17,15 +17,14 @@ public class Daily {
     private Long id;
     private String title;
     private Integer durationbyparticipant;
-    private Integer triggermethod;
-    private Integer delaybetweenswitch;
+    private Integer switchmethod;
     private Boolean random;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
 
     /** Used for active entity operations. */
-    private transient DailyGreenDao myDao;
+    private transient DailyDao myDao;
 
     private List<Participant> participants;
 
@@ -36,12 +35,11 @@ public class Daily {
         this.id = id;
     }
 
-    public Daily(Long id, String title, Integer durationbyparticipant, Integer triggermethod, Integer delaybetweenswitch, Boolean random) {
+    public Daily(Long id, String title, Integer durationbyparticipant, Integer switchmethod, Boolean random) {
         this.id = id;
         this.title = title;
         this.durationbyparticipant = durationbyparticipant;
-        this.triggermethod = triggermethod;
-        this.delaybetweenswitch = delaybetweenswitch;
+        this.switchmethod = switchmethod;
         this.random = random;
     }
 
@@ -75,20 +73,12 @@ public class Daily {
         this.durationbyparticipant = durationbyparticipant;
     }
 
-    public Integer getTriggermethod() {
-        return triggermethod;
+    public Integer getSwitchmethod() {
+        return switchmethod;
     }
 
-    public void setTriggermethod(Integer triggermethod) {
-        this.triggermethod = triggermethod;
-    }
-
-    public Integer getDelaybetweenswitch() {
-        return delaybetweenswitch;
-    }
-
-    public void setDelaybetweenswitch(Integer delaybetweenswitch) {
-        this.delaybetweenswitch = delaybetweenswitch;
+    public void setSwitchmethod(Integer switchmethod) {
+        this.switchmethod = switchmethod;
     }
 
     public Boolean getRandom() {
@@ -105,7 +95,7 @@ public class Daily {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
-            ParticipantGreenDao targetDao = daoSession.getParticipantDao();
+            ParticipantDao targetDao = daoSession.getParticipantDao();
             List<Participant> participantsNew = targetDao._queryDaily_Participants(id);
             synchronized (this) {
                 if(participants == null) {

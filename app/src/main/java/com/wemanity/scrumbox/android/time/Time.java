@@ -3,10 +3,6 @@ package com.wemanity.scrumbox.android.time;
 import com.wemanity.scrumbox.android.Sign;
 
 public class Time {
-
-    private static final long MILLIS_IN_MINUTE = 60000;
-    private static final long MILLIS_IN_SECONDE = 1000;
-
     private Sign sign;
     private long totalMillis;
     private long minute;

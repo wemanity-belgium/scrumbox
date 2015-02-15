@@ -29,7 +29,14 @@ import android.os.SystemClock;
  * {@link #onTick(long)} takes an amount of time to execute that is significant
  * compared to the countdown interval.
  */
-public abstract class CountDown {
+public class CountDown {
+
+    public interface CountDownEventListener{
+        void onTick(long time);
+        void onFinish(long duration);
+    }
+
+    private CountDownEventListener countDownEventListener;
 
     /**
      * Millis since epoch when alarm should stop.
@@ -50,6 +57,16 @@ public abstract class CountDown {
     private boolean stop = false;
 
     private boolean start = false;
+
+    /**
+     * @param millisInFuture The number of millis in the future from the call
+     *   to {@link #start()}
+     */
+    public CountDown(long millisInFuture) {
+        this.millisInFuture = millisInFuture;
+        countdownInterval = 100;
+        start = false;
+    }
 
     /**
      * @param millisInFuture The number of millis in the future from the call
@@ -101,9 +118,17 @@ public abstract class CountDown {
      * Callback fired on regular interval.
      * @param time The amount of time until finished.
      */
-    public abstract void onTick(long time);
+    public void onTick(long time){
+        if (countDownEventListener != null){
+            countDownEventListener.onTick(time);
+        }
+    }
 
-    public abstract void onFinish(long duration);
+    public void onFinish(long duration){
+        if (countDownEventListener != null){
+            countDownEventListener.onFinish(duration);
+        }
+    }
 
     private static final int MSG = 1000;
 
@@ -113,27 +138,27 @@ public abstract class CountDown {
         @Override
         public void handleMessage(Message msg) {
 
-        synchronized (CountDown.this) {
-            if (stop || !start) {
-                return;
+            synchronized (CountDown.this) {
+                if (stop || !start) {
+                    return;
+                }
+
+                long stopTime = SystemClock.elapsedRealtime();
+                final long millisSpent = stopTime - startTime;
+                duration += millisSpent;
+                long lastTickStart = SystemClock.elapsedRealtime();
+                onTick(millisInFuture - duration);
+                // take into account user's onTick taking time to execute
+                long delay = lastTickStart + countdownInterval - SystemClock.elapsedRealtime();
+
+                // special case: user's onTick took more than interval to
+                // complete, skip to next interval
+                while (delay < 0) delay += countdownInterval;
+
+                sendMessageDelayed(obtainMessage(MSG), delay);
+
+                startTime = stopTime;
             }
-
-            long stopTime = SystemClock.elapsedRealtime();
-            final long millisSpent = stopTime - startTime;
-            duration += millisSpent;
-            long lastTickStart = SystemClock.elapsedRealtime();
-            onTick(millisInFuture - duration);
-            // take into account user's onTick taking time to execute
-            long delay = lastTickStart + countdownInterval - SystemClock.elapsedRealtime();
-
-            // special case: user's onTick took more than interval to
-            // complete, skip to next interval
-            while (delay < 0) delay += countdownInterval;
-
-            sendMessageDelayed(obtainMessage(MSG), delay);
-
-            startTime = stopTime;
-        }
         }
     };
 }

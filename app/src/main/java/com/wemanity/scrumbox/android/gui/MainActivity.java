@@ -1,32 +1,26 @@
 package com.wemanity.scrumbox.android.gui;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
-import com.wemanity.scrumbox.android.time.CountDown;
 import com.wemanity.scrumbox.android.R;
 
+import roboguice.activity.RoboActivity;
+import roboguice.inject.ContentView;
 
-public class MainActivity extends Activity {
+@ContentView(R.layout.main_layout)
+public class MainActivity extends RoboActivity  {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        FrameLayout layoutCircle = (FrameLayout) findViewById(R.id.shapeCircle);
-        Drawable circle = getResources().getDrawable(R.drawable.circle_drawable);
-        circle.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
-        layoutCircle.setBackground(circle);
+        getFragmentManager().beginTransaction().add(R.id.fragment_frame_layout, new RootFragment()).commit();
     }
+
 
 
     @Override
@@ -38,7 +32,6 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Drawable d = null;
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.

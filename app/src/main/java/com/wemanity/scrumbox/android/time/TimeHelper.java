@@ -4,6 +4,7 @@ import android.widget.TextView;
 
 import com.wemanity.scrumbox.android.Sign;
 
+
 public class TimeHelper {
     private static final long MILLIS_IN_MINUTE = 60000;
     private static final long MILLIS_IN_SECONDE = 1000;

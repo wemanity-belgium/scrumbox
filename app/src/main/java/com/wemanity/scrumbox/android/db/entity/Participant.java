@@ -1,10 +1,10 @@
 package com.wemanity.scrumbox.android.db.entity;
 
-import com.wemanity.scrumbox.android.db.dao.impl.DailyGreenDao;
+import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
 import com.wemanity.scrumbox.android.db.dao.DaoSession;
-import com.wemanity.scrumbox.android.db.dao.impl.MemberGreenDao;
-import com.wemanity.scrumbox.android.db.dao.impl.ParticipantGreenDao;
-import com.wemanity.scrumbox.android.db.dao.impl.RoleGreenDao;
+import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
+import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
+import com.wemanity.scrumbox.android.db.dao.impl.RoleDao;
 
 import de.greenrobot.dao.DaoException;
 
@@ -30,7 +30,7 @@ public class Participant {
     private transient DaoSession daoSession;
 
     /** Used for active entity operations. */
-    private transient ParticipantGreenDao myDao;
+    private transient ParticipantDao myDao;
 
     private Member member;
     private Long member__resolvedKey;
@@ -164,7 +164,7 @@ public class Participant {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
-            MemberGreenDao targetDao = daoSession.getMemberDao();
+            MemberDao targetDao = daoSession.getMemberDao();
             Member memberNew = targetDao.load(__key);
             synchronized (this) {
                 member = memberNew;
@@ -192,7 +192,7 @@ public class Participant {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
-            RoleGreenDao targetDao = daoSession.getRoleDao();
+            RoleDao targetDao = daoSession.getRoleDao();
             Role roleNew = targetDao.load(__key);
             synchronized (this) {
                 role = roleNew;
@@ -220,7 +220,7 @@ public class Participant {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
-            DailyGreenDao targetDao = daoSession.getDailyDao();
+            DailyDao targetDao = daoSession.getDailyDao();
             Daily dailyNew = targetDao.load(__key);
             synchronized (this) {
                 daily = dailyNew;

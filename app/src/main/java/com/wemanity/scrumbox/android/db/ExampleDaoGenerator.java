@@ -30,7 +30,7 @@ import de.greenrobot.daogenerator.ToMany;
  */
 public class ExampleDaoGenerator {
 
-    /*public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         Schema schema = new Schema(1000, "com.wemanity.scrumbox.android.db");
 
         addDaily(schema);
@@ -38,31 +38,6 @@ public class ExampleDaoGenerator {
         //addCustomerOrder(schema);
 
         new DaoGenerator().generateAll(schema, "../scrumbox/app/src/main/java");
-    }*/
-
-    private static void addNote(Schema schema) {
-        Entity note = schema.addEntity("Note");
-        note.addIdProperty();
-        note.addStringProperty("text").notNull();
-        note.addStringProperty("comment");
-        note.addDateProperty("date");
-    }
-
-    private static void addCustomerOrder(Schema schema) {
-        Entity customer = schema.addEntity("Customer");
-        customer.addIdProperty();
-        customer.addStringProperty("name").notNull();
-
-        Entity order = schema.addEntity("Order");
-        order.setTableName("ORDERS"); // "ORDER" is a reserved keyword
-        order.addIdProperty();
-        Property orderDate = order.addDateProperty("date").getProperty();
-        Property customerId = order.addLongProperty("customerId").notNull().getProperty();
-        order.addToOne(customer, customerId);
-
-        ToMany customerToOrders = customer.addToMany(order, customerId);
-        customerToOrders.setName("orders");
-        customerToOrders.orderAsc(orderDate);
     }
 
     private static void addDaily(Schema schema){
@@ -70,18 +45,19 @@ public class ExampleDaoGenerator {
         daily.addIdProperty();
         daily.addStringProperty("title");
         daily.addIntProperty("durationbyparticipant");
-        daily.addIntProperty("triggermethod");
-        daily.addIntProperty("delaybetweenswitch");
+        daily.addIntProperty("switchmethod");
         daily.addBooleanProperty("random");
+        daily.addDateProperty("time");
 
         Entity role = schema.addEntity("Role");
         role.addIdProperty();
         role.addStringProperty("name");
-        role.addStringProperty("color");
+        role.addIntProperty("color");
 
 
         Entity member = schema.addEntity("Member");
         member.addIdProperty();
+        member.addDateProperty("inscriptiondate");
         member.addStringProperty("nickname");
         member.addByteArrayProperty("image");
 
@@ -113,14 +89,19 @@ public class ExampleDaoGenerator {
 
         Entity participation = schema.addEntity("Participation");
         participation.addIdProperty();
-        participation.addIntProperty("personaltime");
+        participation.addLongProperty("time");
         Property participantId = participation.addLongProperty("participantid").notNull().getProperty();
         Property dailyOccurrenceId = participation.addLongProperty("dailyoccurrenceid").notNull().getProperty();
-        participation.addToMany(participant, participantId);
+        participation.addToOne(participant, participantId);
 
         ToMany dailyOccurrenceToParticipation = dailyOccurrence.addToMany(participation, dailyOccurrenceId);
         dailyOccurrenceToParticipation.setName("participations");
 
+        Entity event = schema.addEntity("event");
+        event.addIdProperty();
+        event.addDateProperty("date");
+        event.addStringProperty("type");
+        event.addLongProperty("externalid");
     }
 
 }

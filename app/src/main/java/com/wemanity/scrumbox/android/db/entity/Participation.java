@@ -1,9 +1,8 @@
 package com.wemanity.scrumbox.android.db.entity;
 
-import java.util.List;
 import com.wemanity.scrumbox.android.db.dao.DaoSession;
-import com.wemanity.scrumbox.android.db.dao.impl.ParticipantGreenDao;
-import com.wemanity.scrumbox.android.db.dao.impl.ParticipationGreenDao;
+import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
+import com.wemanity.scrumbox.android.db.dao.impl.ParticipationDao;
 
 import de.greenrobot.dao.DaoException;
 
@@ -22,9 +21,11 @@ public class Participation {
     private transient DaoSession daoSession;
 
     /** Used for active entity operations. */
-    private transient ParticipationGreenDao myDao;
+    private transient ParticipationDao myDao;
 
-    private List<Participant> participantList;
+    private Participant participant;
+    private Long participant__resolvedKey;
+
 
     public Participation() {
     }
@@ -78,26 +79,32 @@ public class Participation {
         this.dailyoccurrenceid = dailyoccurrenceid;
     }
 
-    /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
-    public List<Participant> getParticipantList() {
-        if (participantList == null) {
+    /** To-one relationship, resolved on first access. */
+    public Participant getParticipant() {
+        long __key = this.participantid;
+        if (participant__resolvedKey == null || !participant__resolvedKey.equals(__key)) {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
-            ParticipantGreenDao targetDao = daoSession.getParticipantDao();
-            List<Participant> participantListNew = targetDao._queryParticipation_ParticipantList(id);
+            ParticipantDao targetDao = daoSession.getParticipantDao();
+            Participant participantNew = targetDao.load(__key);
             synchronized (this) {
-                if(participantList == null) {
-                    participantList = participantListNew;
-                }
+                participant = participantNew;
+            	participant__resolvedKey = __key;
             }
         }
-        return participantList;
+        return participant;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    public synchronized void resetParticipantList() {
-        participantList = null;
+    public void setParticipant(Participant participant) {
+        if (participant == null) {
+            throw new DaoException("To-one property 'participantid' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.participant = participant;
+            participantid = participant.getId();
+            participant__resolvedKey = participantid;
+        }
     }
 
     /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */
