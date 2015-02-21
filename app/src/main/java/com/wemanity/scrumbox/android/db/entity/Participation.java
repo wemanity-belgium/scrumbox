@@ -10,7 +10,7 @@ import de.greenrobot.dao.DaoException;
 /**
  * Entity mapped to table PARTICIPATION.
  */
-public class Participation {
+public class Participation implements Entity {
 
     private Long id;
     private Integer personaltime;
@@ -47,6 +47,7 @@ public class Participation {
         myDao = daoSession != null ? daoSession.getParticipationDao() : null;
     }
 
+    @Override
     public Long getId() {
         return id;
     }

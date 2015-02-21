@@ -12,7 +12,7 @@ import de.greenrobot.dao.DaoException;
 /**
  * Entity mapped to table DAILY_OCCURRENCE.
  */
-public class DailyOccurrence {
+public class DailyOccurrence implements Entity {
 
     private Long id;
     private java.util.Date dateexecuted;
@@ -45,6 +45,7 @@ public class DailyOccurrence {
         myDao = daoSession != null ? daoSession.getDailyOccurrenceDao() : null;
     }
 
+    @Override
     public Long getId() {
         return id;
     }

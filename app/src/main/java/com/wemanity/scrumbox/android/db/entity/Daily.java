@@ -12,7 +12,7 @@ import de.greenrobot.dao.DaoException;
 /**
  * Entity mapped to table DAILY.
  */
-public class Daily {
+public class Daily implements Entity{
 
     private Long id;
     private String title;
@@ -49,6 +49,7 @@ public class Daily {
         myDao = daoSession != null ? daoSession.getDailyDao() : null;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -134,5 +135,6 @@ public class Daily {
         }    
         myDao.refresh(this);
     }
+
 
 }

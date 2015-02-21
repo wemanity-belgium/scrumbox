@@ -4,7 +4,7 @@ package com.wemanity.scrumbox.android.db.entity;
 /**
  * Entity mapped to table MEMBER.
  */
-public class Member {
+public class Member implements Entity {
 
     private Long id;
     private String nickname;
@@ -23,6 +23,7 @@ public class Member {
         this.image = image;
     }
 
+    @Override
     public Long getId() {
         return id;
     }

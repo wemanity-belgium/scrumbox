@@ -1,68 +1,50 @@
 package com.wemanity.scrumbox.android.gui.member;
 
-import android.database.DataSetObserver;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-public class MemberAdapter implements ListAdapter{
-    @Override
-    public boolean areAllItemsEnabled() {
-        return false;
+import com.wemanity.scrumbox.android.R;
+import com.wemanity.scrumbox.android.db.entity.Member;
+import com.wemanity.scrumbox.android.gui.base.adapter.EntityAdapter;
+
+import java.util.List;
+
+public class MemberAdapter extends EntityAdapter<Member> {
+
+    private Drawable defaultAvatar;
+
+    public MemberAdapter(Context context) {
+        super(context, R.layout.member_listview_custom_view);
+        init(null);
+    }
+
+    public MemberAdapter(Context context, List objects, Drawable defaultAvatar) {
+        super(context, R.layout.member_listview_custom_view, objects);
+        init(defaultAvatar);
+    }
+
+    public MemberAdapter(Context context, List objects) {
+        super(context, R.layout.member_listview_custom_view, objects);
+        init(null);
+    }
+
+    private void init(Drawable defaultAvatar){
+
+        this.defaultAvatar = (defaultAvatar == null ? getContext().getResources().getDrawable(R.drawable.default_profile_avatar) : defaultAvatar);
     }
 
     @Override
-    public boolean isEnabled(int position) {
-        return false;
-    }
-
-    @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
-
-    }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-
-    }
-
-    @Override
-    public int getCount() {
-        return 0;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return false;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return 0;
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return 0;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
+    protected void populateView(View rowView, Member item) {
+        TextView memberNickName = (TextView) rowView.findViewById(R.id.memberNickNameTextView);
+        memberNickName.setText(item.getNickname());
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.memberAvatarImageView);
+        if (item.getImage() != null){
+            //TODO
+        } else{
+            imageView.setBackground(defaultAvatar);
+        }
     }
 }

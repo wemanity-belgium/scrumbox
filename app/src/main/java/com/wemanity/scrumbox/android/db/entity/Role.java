@@ -4,7 +4,7 @@ package com.wemanity.scrumbox.android.db.entity;
 /**
  * Entity mapped to table ROLE.
  */
-public class Role {
+public class Role implements Entity{
 
     private Long id;
     private String name;
@@ -23,6 +23,7 @@ public class Role {
         this.color = color;
     }
 
+    @Override
     public Long getId() {
         return id;
     }

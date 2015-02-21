@@ -1,10 +1,12 @@
 package com.wemanity.scrumbox.android.gui.member;
 
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -20,6 +22,7 @@ import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 
 import java.util.List;
 
+import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
 public class MemberMainFragment  extends BaseFragment implements View.OnClickListener {
@@ -29,35 +32,37 @@ public class MemberMainFragment  extends BaseFragment implements View.OnClickLis
     private MemberDao memberDao;
 
     @InjectView(R.id.memberListView)
-    private ListView dailyListView;
+    private ListView memberListView;
 
     @InjectView(R.id.addMemberFAB)
-    private FloatingActionButton dailyFAB;
+    private FloatingActionButton memberFAB;
 
     @InjectView(R.id.memberMainLayout)
     private RelativeLayout memberLayout;
 
+    @InjectResource(R.drawable.default_profile_avatar)
+    private Drawable defaultProfileAvatar;
+
+    private MemberAdapter memberAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        memberAdapter = new MemberAdapter(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.member_main_fragment, container, false);
-        return view;
+        return inflater.inflate(R.layout.member_main_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dailyFAB.setOnClickListener(this);
+        memberFAB.setOnClickListener(this);
         List<Member> members = memberDao.queryBuilder().list();
-        if (members.size()>0){
-            String s = "";
-        }
-        //dailyFAB.setOnTouchListener(new MyTouchListener());
-        //dailyLayout.setOnDragListener(new MyDragListener());
+        memberListView.setAdapter(memberAdapter);
+        memberAdapter.addAll(members);
     }
 
     @Override
@@ -78,6 +83,7 @@ public class MemberMainFragment  extends BaseFragment implements View.OnClickLis
                         Member newMember = new Member();
                         newMember.setNickname(nickName);
                         memberDao.insert(newMember);
+                        memberAdapter.add(newMember);
                     }
 
                     @Override
@@ -88,12 +94,6 @@ public class MemberMainFragment  extends BaseFragment implements View.OnClickLis
                     @Override
                     public void onNeutral(MaterialDialog dialog) {
                         super.onNeutral(dialog);
-                    }
-                })
-                .dismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        String s = "";
                     }
                 })
                 .build()
