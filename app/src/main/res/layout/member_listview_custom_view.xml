@@ -3,9 +3,10 @@
 
 <com.daimajia.swipe.SwipeLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/swipe"
+android:id="@+id/memberSwipeLayout"
 android:layout_width="match_parent" android:layout_height="match_parent">
     <LinearLayout
+        android:id="@+id/memberOptionBackLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="70dp">
@@ -15,10 +16,11 @@ android:layout_width="match_parent" android:layout_height="match_parent">
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/editImageView2"
+            android:id="@+id/editImageView"
             android:background="@drawable/edit"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_vertical" />
         <Space android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_width="0dp"/>
@@ -28,7 +30,8 @@ android:layout_width="match_parent" android:layout_height="match_parent">
             android:id="@+id/deleteImageView"
             android:background="@drawable/delete"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_vertical" />
         <Space android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_width="0dp"/>
@@ -48,7 +51,8 @@ android:layout_width="match_parent" android:layout_height="match_parent">
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/default_profile_avatar" />
+            android:background="@drawable/default_profile_avatar"
+            android:layout_gravity="center_vertical" />
 
         <TextView
             android:layout_width="match_parent"

@@ -8,5 +8,6 @@
     <color name="pink">#e91e63</color>
     <color name="pink_pressed">#ec407a</color>
     <color name="blue_semi_transparent">#8033a9da</color>
+    <color name="blue">#ff33a9da</color>
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
 </resources>

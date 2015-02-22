@@ -4,5 +4,6 @@
     <string name="action_settings">Settings</string>
     <string name="action_add">Add</string>
     <string name="action_cancel">Cancel</string>
-
+    <string name="action_update">Update</string>
+    <integer name="POSITIVE_BUTTON">-1</integer>
 </resources>

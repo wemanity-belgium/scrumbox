@@ -4,6 +4,10 @@ android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
+    dexOptions {
+        preDexLibraries = false
+    }
+
     defaultConfig {
         applicationId "com.wemanity.scrumbox.android"
         minSdkVersion 16
@@ -46,5 +50,6 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.7.0'
     compile 'com.afollestad:material-dialogs:0.6.3.0'
     compile 'com.daimajia.swipelayout:library:1.1.8'
+    compile 'com.daimajia.androidanimations:library:1.1.2@aar'
     compile project(':slidingmenu')
 }

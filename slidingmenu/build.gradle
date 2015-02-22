@@ -7,6 +7,9 @@ android {
         minSdkVersion 16
         targetSdkVersion 17
     }
+    dexOptions {
+        preDexLibraries = false
+    }
     buildTypes {
         release {
             minifyEnabled false
