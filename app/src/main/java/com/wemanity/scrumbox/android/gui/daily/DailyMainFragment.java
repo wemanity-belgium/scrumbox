@@ -16,7 +16,9 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
+import com.wemanity.scrumbox.android.gui.RootFragment;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
+import com.wemanity.scrumbox.android.gui.member.dialog.MemberEditDialog;
 
 import roboguice.fragment.provided.RoboFragment;
 import roboguice.inject.InjectResource;
@@ -55,12 +57,14 @@ public class DailyMainFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        new MaterialDialog.Builder(this.getActivity())
-                .title("New daily")
-                .customView(R.layout.new_daily_dialog, true)
-                .positiveText("Add")
-                .build()
-                .show();
+        DeailyEditDialog memberDialog = DeailyEditDialog.newInstance();
+        memberDialog.setShowsDialog(false);
+        memberDialog.show(getActivity().getFragmentManager(),"editDailyDialog");
+    }
+
+    @Override
+    public Class<? extends BaseFragment> getPreviusFragment() {
+        return RootFragment.class;
     }
 
     /*class MyDragListener implements View.OnDragListener {

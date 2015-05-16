@@ -9,10 +9,13 @@
     <string name="nickname">Nickname : </string>
     <string name="avatar">Avatar :</string>
     <string name="nickname_empty">Nickname can\'t be empty</string>
+    <string name="roti_current_score">Score : </string>
+    <string name="roti_number_participants">Participants : </string>
+    <string name="roti_count">Count : %s</string>
     <string-array name="list_module">
         <item>Daily</item>
-        <item>Scrum Poker</item>
         <item>Member</item>
+        <item>Scrum Poker</item>
+        <item>Roti</item>
     </string-array>
-
 </resources>

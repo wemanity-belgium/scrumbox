@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.wemanity.scrumbox.android.R;
+import com.wemanity.scrumbox.android.gui.RootFragment;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 import com.wemanity.scrumbox.android.time.CountDown;
 import com.wemanity.scrumbox.android.time.TimeHelper;
@@ -88,5 +89,10 @@ public class DailyProgressFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onFinish(long duration) {
         TimeHelper.setTimeLabel(totalTimeValueTextView, duration);
+    }
+
+    @Override
+    public Class<? extends BaseFragment> getPreviusFragment() {
+        return RootFragment.class;
     }
 }

@@ -1,13 +1,12 @@
 package com.wemanity.scrumbox.android.gui;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.wemanity.scrumbox.android.R;
+import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
@@ -18,7 +17,8 @@ public class MainActivity extends RoboActivity  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getFragmentManager().beginTransaction().add(R.id.fragment_frame_layout, new RootFragment()).commit();
+        getFragmentManager().beginTransaction().add(R.id.fragment_frame_layout, new RootFragment(), RootFragment.class.getSimpleName()).commit();
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -32,16 +32,22 @@ public class MainActivity extends RoboActivity  {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                BaseFragment frag = (BaseFragment) getFragmentManager().findFragmentById(R.id.fragment_frame_layout);
+                if (frag != null){
+                    FragmentHelper.switchFragment(getFragmentManager(), frag.getPreviusFragment(), R.id.fragment_frame_layout);
+                }
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void goBack(){
+
     }
 }

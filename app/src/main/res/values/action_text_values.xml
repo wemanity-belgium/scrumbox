@@ -5,5 +5,8 @@
     <string name="action_add">Add</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_update">Update</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_undo">Undo</string>
+    <string name="action_save">Save</string>
     <integer name="POSITIVE_BUTTON">-1</integer>
 </resources>

@@ -1,6 +1,7 @@
 package com.wemanity.scrumbox.android.gui;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,13 @@ import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 import com.wemanity.scrumbox.android.gui.daily.DailyMainFragment;
 import com.wemanity.scrumbox.android.gui.member.MemberMainFragment;
+import com.wemanity.scrumbox.android.gui.roti.RotiCalculatorFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
@@ -48,14 +51,29 @@ public class RootFragment extends BaseFragment implements AdapterView.OnItemClic
     }
 
     private SimpleAdapter createModuleViewAdapter(){
-        String[] from = {"moduleName"};
-        int[] to = {R.id.moduleNameTextView};
-        List<Map<String, String>> fillMaps = new ArrayList<Map<String, String>>();
-        for(String moduleName : listModule){
-            Map<String,String> moduleData = new HashMap<>(1);
-            moduleData.put("moduleName",moduleName);
-            fillMaps.add(moduleData);
-        }
+        String[] from = {"moduleName", "moduleLogo"};
+        int[] to = {R.id.moduleNameTextView, R.id.imageModuleLogo};
+        List<Map<String, Object>> fillMaps = new ArrayList<>();
+        Map<String,Object> moduleData = new HashMap<>(2);
+        moduleData.put("moduleName","Daily");
+        moduleData.put("moduleLogo",R.drawable.daily_timer_logo);
+        fillMaps.add(moduleData);
+
+        moduleData = new HashMap<>(2);
+        moduleData.put("moduleName","Member");
+        moduleData.put("moduleLogo",R.drawable.member_logo);
+        fillMaps.add(moduleData);
+
+        moduleData = new HashMap<>(2);
+        moduleData.put("moduleName","Scrum Poker");
+        moduleData.put("moduleLogo",R.drawable.scrum_poker_logo);
+        fillMaps.add(moduleData);
+
+        moduleData = new HashMap<>(2);
+        moduleData.put("moduleName","Roti");
+        moduleData.put("moduleLogo",R.drawable.roti_logo);
+        fillMaps.add(moduleData);
+        //}
         return new SimpleAdapter(this.getActivity(),fillMaps, R.layout.module_listview_layout, from,to);
     }
 
@@ -75,14 +93,19 @@ public class RootFragment extends BaseFragment implements AdapterView.OnItemClic
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)   {
         switch(listModule[position]){
             case "Daily":
-                    //switchFragment(DailyMainFragment.class, DailyMainFragment.TAG);
-                getActivity().getFragmentManager().beginTransaction().hide(this).add(R.id.fragment_frame_layout, new DailyMainFragment()).commit();
-                //switchFragment(DailyMainFragment.class);
+                FragmentHelper.switchFragment(getActivity().getFragmentManager(), DailyMainFragment.class, R.id.fragment_frame_layout);
                 break;
             case "Member":
-                switchFragment(MemberMainFragment.class);
-                //getActivity().getFragmentManager().beginTransaction().hide(this).add(R.id.fragment_frame_layout, new MemberMainFragment()).commit();
+                FragmentHelper.switchFragment(getActivity().getFragmentManager(), MemberMainFragment.class, R.id.fragment_frame_layout);
+                break;
+            case "Roti":
+                FragmentHelper.switchFragment(getActivity().getFragmentManager(), RotiCalculatorFragment.class, R.id.fragment_frame_layout);
                 break;
         }
+    }
+
+    @Override
+    public Class<? extends BaseFragment> getPreviusFragment() {
+        return null;
     }
 }

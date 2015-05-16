@@ -1,5 +1,6 @@
 package com.wemanity.scrumbox.android.gui.member;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
 import com.wemanity.scrumbox.android.db.entity.Member;
+import com.wemanity.scrumbox.android.gui.RootFragment;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 import com.wemanity.scrumbox.android.gui.base.EntityAction;
 import com.wemanity.scrumbox.android.gui.base.OnEntityChangeListener;
@@ -27,7 +29,7 @@ import java.util.List;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
-public class MemberMainFragment  extends BaseFragment implements View.OnClickListener,
+public class MemberMainFragment extends BaseFragment implements View.OnClickListener,
         OnEntityChangeListener<Member> {
     public static final String TAG = "DailyMainFragment";
 
@@ -66,6 +68,12 @@ public class MemberMainFragment  extends BaseFragment implements View.OnClickLis
                 }
             }
         });
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        memberAdapter.clear();
     }
 
     @Override
@@ -116,5 +124,10 @@ public class MemberMainFragment  extends BaseFragment implements View.OnClickLis
         memberDialog.setShowsDialog(false);
         memberDialog.setOnEntityChangeListener(this);
         memberDialog.show(getActivity().getFragmentManager(),"editMemberDialog");
+    }
+
+    @Override
+    public Class<? extends BaseFragment> getPreviusFragment() {
+        return RootFragment.class;
     }
 }

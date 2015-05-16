@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/roti_number_participants"
+            android:id="@+id/textView3" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/nbParticipantTextView"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:gravity="left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/roti_current_score"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/rotiCurrentScoreTextView"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="5dp"
+            android:gravity="left" />
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:background="@drawable/divider"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp">
+
+        <view
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            class="com.wemanity.scrumbox.android.gui.RotiScoreView"
+            android:id="@+id/rotiScoreZeroView"
+            app:score="zero"
+            app:image="@drawable/roti_zero"/>
+
+        <view
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            class="com.wemanity.scrumbox.android.gui.RotiScoreView"
+            android:id="@+id/rotiScoreOneView"
+            app:score="one"
+            app:image="@drawable/roti_one"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="4">
+
+        <view
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            class="com.wemanity.scrumbox.android.gui.RotiScoreView"
+            android:id="@+id/rotiScoreTwoView"
+            app:score="two"
+            app:image="@drawable/roti_two"/>
+
+        <view
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            class="com.wemanity.scrumbox.android.gui.RotiScoreView"
+            android:id="@+id/rotiScoreThreeView"
+            app:score="three"
+            app:image="@drawable/roti_three" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp">
+
+        <view
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            class="com.wemanity.scrumbox.android.gui.RotiScoreView"
+            android:id="@+id/rotiScoreFourView"
+            app:score="four"
+            app:image="@drawable/roti_four"/>
+
+        <view
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            class="com.wemanity.scrumbox.android.gui.RotiScoreView"
+            android:id="@+id/rotiScoreFiveView"
+            app:score="five"
+            app:image="@drawable/roti_five"/>
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView3"
+        android:background="@drawable/divider"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:id="@+id/undoButton"
+            android:padding="5dp"
+            android:drawingCacheQuality="low"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:id="@+id/clearButton"
+            android:padding="5dp"
+            android:adjustViewBounds="true"
+            android:drawingCacheQuality="low"
+            android:layout_marginLeft="15dp"
+            android:layout_gravity="center"
+            android:cropToPadding="false" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>
