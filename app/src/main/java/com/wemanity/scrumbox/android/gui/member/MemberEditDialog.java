@@ -1,29 +1,27 @@
-package com.wemanity.scrumbox.android.gui.member.dialog;
+package com.wemanity.scrumbox.android.gui.member;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.method.KeyListener;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
-import com.wemanity.scrumbox.android.db.entity.Entity;
 import com.wemanity.scrumbox.android.db.entity.Member;
 import com.wemanity.scrumbox.android.gui.base.EntityAction;
 import com.wemanity.scrumbox.android.gui.base.OnEntityChangeListener;
 import com.wemanity.scrumbox.android.util.StringUtils;
 
+import java.util.List;
+
+import de.greenrobot.dao.query.WhereCondition;
 import roboguice.fragment.provided.RoboDialogFragment;
+import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
 public class MemberEditDialog extends RoboDialogFragment implements View.OnClickListener, View.OnKeyListener {
@@ -39,6 +37,9 @@ public class MemberEditDialog extends RoboDialogFragment implements View.OnClick
 
     @InjectView(R.id.memberAvatarImageView)
     private ImageView memberAvatar;
+
+    @InjectResource(R.string.daily_participant_time_left)
+    private String s;
 
     private Member member;
 
@@ -103,9 +104,15 @@ public class MemberEditDialog extends RoboDialogFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.positiveButton:
-                if (!valideInput()){
-                    break;
+                if (valideInput()){
+                    if (insertMode) {
+                        insertMember();
+                    } else{
+                        updateMember();
+                    }
+                    dismiss();
                 }
+                break;
             case R.id.negativeButton:
                 dismiss();
         }
@@ -115,11 +122,6 @@ public class MemberEditDialog extends RoboDialogFragment implements View.OnClick
         if (StringUtils.clear(memberNicknameEdit).isEmpty()){
             memberNicknameEdit.setError(getActivity().getString(R.string.nickname_empty));
             return false;
-        }
-        if (insertMode) {
-            insertMember();
-        } else{
-            updateMember();
         }
         return true;
     }

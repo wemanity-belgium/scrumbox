@@ -1,7 +1,6 @@
 package com.wemanity.scrumbox.android.gui;
 
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
@@ -34,6 +32,7 @@ public class RootFragment extends BaseFragment implements AdapterView.OnItemClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     @Override
@@ -73,7 +72,6 @@ public class RootFragment extends BaseFragment implements AdapterView.OnItemClic
         moduleData.put("moduleName","Roti");
         moduleData.put("moduleLogo",R.drawable.roti_logo);
         fillMaps.add(moduleData);
-        //}
         return new SimpleAdapter(this.getActivity(),fillMaps, R.layout.module_listview_layout, from,to);
     }
 

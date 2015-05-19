@@ -9,7 +9,6 @@ import de.greenrobot.dao.AbstractDaoMaster;
 import de.greenrobot.dao.identityscope.IdentityScopeType;
 
 import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
-import com.wemanity.scrumbox.android.db.dao.impl.RoleDao;
 import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
 import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
 import com.wemanity.scrumbox.android.db.dao.impl.DailyOccurrenceDao;
@@ -20,28 +19,26 @@ import com.wemanity.scrumbox.android.db.dao.impl.ParticipationDao;
  * Master of DAO (schema version 1000): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
-    public static final int SCHEMA_VERSION = 1000;
+    public static final int SCHEMA_VERSION = 1001;
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
         DailyDao.createTable(db, ifNotExists);
-        RoleDao.createTable(db, ifNotExists);
         MemberDao.createTable(db, ifNotExists);
         ParticipantDao.createTable(db, ifNotExists);
         DailyOccurrenceDao.createTable(db, ifNotExists);
         ParticipationDao.createTable(db, ifNotExists);
     }
-    
+
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(SQLiteDatabase db, boolean ifExists) {
         DailyDao.dropTable(db, ifExists);
-        RoleDao.dropTable(db, ifExists);
         MemberDao.dropTable(db, ifExists);
         ParticipantDao.dropTable(db, ifExists);
         DailyOccurrenceDao.dropTable(db, ifExists);
         ParticipationDao.dropTable(db, ifExists);
     }
-    
+
     public static abstract class OpenHelper extends SQLiteOpenHelper {
 
         public OpenHelper(Context context, String name, CursorFactory factory) {
@@ -54,7 +51,7 @@ public class DaoMaster extends AbstractDaoMaster {
             createAllTables(db, false);
         }
     }
-    
+
     /** WARNING: Drops all table on Upgrade! Use only during development. */
     public static class DevOpenHelper extends OpenHelper {
         public DevOpenHelper(Context context, String name, CursorFactory factory) {
@@ -72,17 +69,16 @@ public class DaoMaster extends AbstractDaoMaster {
     public DaoMaster(SQLiteDatabase db) {
         super(db, SCHEMA_VERSION);
         registerDaoClass(DailyDao.class);
-        registerDaoClass(RoleDao.class);
         registerDaoClass(MemberDao.class);
         registerDaoClass(ParticipantDao.class);
         registerDaoClass(DailyOccurrenceDao.class);
         registerDaoClass(ParticipationDao.class);
     }
-    
+
     public DaoSession newSession() {
         return new DaoSession(db, IdentityScopeType.Session, daoConfigMap);
     }
-    
+
     public DaoSession newSession(IdentityScopeType type) {
         return new DaoSession(db, type, daoConfigMap);
     }

@@ -11,7 +11,6 @@ public class Member implements Entity {
 
     private Long id;
     private String nickname;
-    private byte[] image;
 
     public Member() {
     }
@@ -20,13 +19,11 @@ public class Member implements Entity {
         this.id = id;
     }
 
-    public Member(Long id, String nickname, byte[] image) {
+    public Member(Long id, String nickname) {
         this.id = id;
         this.nickname = nickname;
-        this.image = image;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
@@ -41,34 +38,5 @@ public class Member implements Entity {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Member member = (Member) o;
-
-        if (!id.equals(member.id)) return false;
-        if (!Arrays.equals(image, member.image)) return false;
-        if (!nickname.equals(member.nickname)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = nickname.hashCode();
-        result = 31 * result + (image != null ? Arrays.hashCode(image) : 0);
-        return result;
     }
 }

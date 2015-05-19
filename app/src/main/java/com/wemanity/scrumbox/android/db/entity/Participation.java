@@ -1,5 +1,6 @@
 package com.wemanity.scrumbox.android.db.entity;
 
+import com.wemanity.scrumbox.android.db.*;
 import com.wemanity.scrumbox.android.db.dao.DaoSession;
 import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
 import com.wemanity.scrumbox.android.db.dao.impl.ParticipationDao;
@@ -13,7 +14,7 @@ import de.greenrobot.dao.DaoException;
 public class Participation implements Entity {
 
     private Long id;
-    private Integer personaltime;
+    private Long time;
     private long participantid;
     private long dailyoccurrenceid;
 
@@ -34,9 +35,9 @@ public class Participation implements Entity {
         this.id = id;
     }
 
-    public Participation(Long id, Integer personaltime, long participantid, long dailyoccurrenceid) {
+    public Participation(Long id, Long time, long participantid, long dailyoccurrenceid) {
         this.id = id;
-        this.personaltime = personaltime;
+        this.time = time;
         this.participantid = participantid;
         this.dailyoccurrenceid = dailyoccurrenceid;
     }
@@ -47,7 +48,6 @@ public class Participation implements Entity {
         myDao = daoSession != null ? daoSession.getParticipationDao() : null;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
@@ -56,12 +56,12 @@ public class Participation implements Entity {
         this.id = id;
     }
 
-    public Integer getPersonaltime() {
-        return personaltime;
+    public Long getTime() {
+        return time;
     }
 
-    public void setPersonaltime(Integer personaltime) {
-        this.personaltime = personaltime;
+    public void setTime(Long time) {
+        this.time = time;
     }
 
     public long getParticipantid() {
@@ -91,7 +91,7 @@ public class Participation implements Entity {
             Participant participantNew = targetDao.load(__key);
             synchronized (this) {
                 participant = participantNew;
-            	participant__resolvedKey = __key;
+                participant__resolvedKey = __key;
             }
         }
         return participant;
@@ -112,7 +112,7 @@ public class Participation implements Entity {
     public void delete() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.delete(this);
     }
 
@@ -120,7 +120,7 @@ public class Participation implements Entity {
     public void update() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.update(this);
     }
 
@@ -128,7 +128,7 @@ public class Participation implements Entity {
     public void refresh() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.refresh(this);
     }
 

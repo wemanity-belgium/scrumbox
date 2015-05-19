@@ -16,24 +16,22 @@ import com.wemanity.scrumbox.android.db.entity.Member;
  * DAO for table MEMBER.
 */
 public class MemberDao extends AbstractDao<Member, Long> {
-
     public static final String TABLENAME = "MEMBER";
 
     /**
      * Properties of entity Member.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Nickname = new Property(1, String.class, "nickname", false, "NICKNAME");
-        public final static Property Image = new Property(2, byte[].class, "image", false, "IMAGE");
     };
 
 
     public MemberDao(DaoConfig config) {
         super(config);
     }
-    
+
     public MemberDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
     }
@@ -43,8 +41,7 @@ public class MemberDao extends AbstractDao<Member, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'MEMBER' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
-                "'NICKNAME' TEXT," + // 1: nickname
-                "'IMAGE' BLOB);"); // 2: image
+                "'NICKNAME' TEXT);"); // 1: nickname
     }
 
     /** Drops the underlying database table. */
@@ -57,20 +54,15 @@ public class MemberDao extends AbstractDao<Member, Long> {
     @Override
     protected void bindValues(SQLiteStatement stmt, Member entity) {
         stmt.clearBindings();
- 
+
         Long id = entity.getId();
         if (id != null) {
             stmt.bindLong(1, id);
         }
- 
+
         String nickname = entity.getNickname();
         if (nickname != null) {
             stmt.bindString(2, nickname);
-        }
- 
-        byte[] image = entity.getImage();
-        if (image != null) {
-            stmt.bindBlob(3, image);
         }
     }
 
@@ -78,34 +70,32 @@ public class MemberDao extends AbstractDao<Member, Long> {
     @Override
     public Long readKey(Cursor cursor, int offset) {
         return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
-    }    
+    }
 
     /** @inheritdoc */
     @Override
     public Member readEntity(Cursor cursor, int offset) {
         Member entity = new Member( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // nickname
-            cursor.isNull(offset + 2) ? null : cursor.getBlob(offset + 2) // image
+                cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
+                cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // nickname
         );
         return entity;
     }
-     
+
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, Member entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setNickname(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setImage(cursor.isNull(offset + 2) ? null : cursor.getBlob(offset + 2));
-     }
-    
+    }
+
     /** @inheritdoc */
     @Override
     protected Long updateKeyAfterInsert(Member entity, long rowId) {
         entity.setId(rowId);
         return rowId;
     }
-    
+
     /** @inheritdoc */
     @Override
     public Long getKey(Member entity) {
@@ -117,9 +107,9 @@ public class MemberDao extends AbstractDao<Member, Long> {
     }
 
     /** @inheritdoc */
-    @Override    
+    @Override
     protected boolean isEntityUpdateable() {
         return true;
     }
-    
+
 }

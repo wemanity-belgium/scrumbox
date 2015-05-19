@@ -16,90 +16,57 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/dailyTotalTimeTitleTextView"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:linksClickable="true"
+        android:lines="1"
+        android:textColor="@android:color/black" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/dailyTotalTimeTitleTextView"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="10dp"
-            android:linksClickable="true"
-            android:lines="1"
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/dailyTotalTimeValueTextView"
-            android:layout_weight="1"
-            android:layout_marginLeft="5dp"
-            android:gravity="left"
-            android:layout_marginRight="10dp"
-            android:lines="1" />
-    </LinearLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/dailyTotalTimeValueTextView"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="10dp"
+        android:textSize="40sp"
+        android:lines="1" />
     <FrameLayout
         android:id="@+id/participantPictureLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:background="#ff1915ff"
         android:layout_weight="1"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp">
 
-        <FrameLayout
-            android:id="@+id/roleColorLayout"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="right|top">
-
-        </FrameLayout>
     </FrameLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/dailyParticipantTimeLeftitleTextView"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/black" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/dailyParticipantTimeLeftitleTextView"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="10dp"
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/dailyParticipantTimeLeftValueTextView"
-            android:layout_weight="1"
-            android:layout_marginLeft="5dp"
-            android:gravity="left"
-            android:layout_marginRight="10dp" />
-    </LinearLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/dailyParticipantTimeLeftValueTextView"
+        android:textSize="40sp"
+        android:layout_marginLeft="5dp"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="10dp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

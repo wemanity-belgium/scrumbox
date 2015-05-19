@@ -40,13 +40,13 @@ public class DailyInProgress {
         this.participants.add(participant);
     }
 
-    public void addParticipion(Participant participant, int time) {
+    public void addParticipion(Participant participant, long time) {
         if (participations == null){
             participations = new ArrayList<>();
         }
         Participation participation = new Participation();
         participation.setParticipant(participant);
-        participation.setPersonaltime(time);
+        participation.setTime(time);
         this.participations.add(participation);
         //participants.remove(participation.get)
     }

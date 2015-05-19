@@ -49,43 +49,25 @@ public class ExampleDaoGenerator {
         daily.addBooleanProperty("random");
         daily.addDateProperty("time");
 
-        Entity role = schema.addEntity("Role");
-        role.addIdProperty();
-        role.addStringProperty("name");
-        role.addIntProperty("color");
-
-
         Entity member = schema.addEntity("Member");
         member.addIdProperty();
-        member.addDateProperty("inscriptiondate");
         member.addStringProperty("nickname");
-        member.addByteArrayProperty("image");
 
         Entity participant = schema.addEntity("Participant");
         participant.addIdProperty();
         Property memberId = participant.addLongProperty("memberid").notNull().getProperty();
-        Property roleId = participant.addLongProperty("roleid").notNull().getProperty();
         Property dailyId = participant.addLongProperty("dailyid").notNull().getProperty();
         participant.addToOne(member, memberId);
-        participant.addToOne(role,roleId);
         participant.addToOne(daily, dailyId);
-        //Monday Tuesday Wednesday Thursday Friday Saturday Sunday
-        participant.addBooleanProperty("excludemonday");
-        participant.addBooleanProperty("excludethuesday");
-        participant.addBooleanProperty("excludewednesday");
-        participant.addBooleanProperty("excludethursday");
-        participant.addBooleanProperty("excludefriday");
-        participant.addBooleanProperty("excludesaturday");
-        participant.addBooleanProperty("excludesunday");
 
         ToMany dailyToParticipant = daily.addToMany(participant, dailyId);
         dailyToParticipant.setName("participants");
-        dailyToParticipant.orderAsc(roleId,memberId);
 
         Entity dailyOccurrence = schema.addEntity("DailyOccurrence");
         dailyOccurrence.addIdProperty();
         dailyOccurrence.addDateProperty("dateexecuted");
         dailyOccurrence.addLongProperty("totaltime");
+        Property occurenceDailyId = dailyOccurrence.addLongProperty("dailyid").notNull().getProperty();
 
         Entity participation = schema.addEntity("Participation");
         participation.addIdProperty();
@@ -96,12 +78,8 @@ public class ExampleDaoGenerator {
 
         ToMany dailyOccurrenceToParticipation = dailyOccurrence.addToMany(participation, dailyOccurrenceId);
         dailyOccurrenceToParticipation.setName("participations");
+        dailyOccurrence.addToOne(daily, occurenceDailyId).setName("daily");
 
-        Entity event = schema.addEntity("event");
-        event.addIdProperty();
-        event.addDateProperty("date");
-        event.addStringProperty("type");
-        event.addLongProperty("externalid");
     }
 
 }

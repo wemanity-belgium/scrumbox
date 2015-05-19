@@ -1,10 +1,9 @@
 package com.wemanity.scrumbox.android.db.entity;
 
-import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
 import com.wemanity.scrumbox.android.db.dao.DaoSession;
+import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
 import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
 import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
-import com.wemanity.scrumbox.android.db.dao.impl.RoleDao;
 
 import de.greenrobot.dao.DaoException;
 
@@ -16,15 +15,7 @@ public class Participant implements Entity {
 
     private Long id;
     private long memberid;
-    private long roleid;
     private long dailyid;
-    private Boolean excludemonday;
-    private Boolean excludethuesday;
-    private Boolean excludewednesday;
-    private Boolean excludethursday;
-    private Boolean excludefriday;
-    private Boolean excludesaturday;
-    private Boolean excludesunday;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -34,9 +25,6 @@ public class Participant implements Entity {
 
     private Member member;
     private Long member__resolvedKey;
-
-    private Role role;
-    private Long role__resolvedKey;
 
     private Daily daily;
     private Long daily__resolvedKey;
@@ -49,18 +37,10 @@ public class Participant implements Entity {
         this.id = id;
     }
 
-    public Participant(Long id, long memberid, long roleid, long dailyid, Boolean excludemonday, Boolean excludethuesday, Boolean excludewednesday, Boolean excludethursday, Boolean excludefriday, Boolean excludesaturday, Boolean excludesunday) {
+    public Participant(Long id, long memberid, long dailyid) {
         this.id = id;
         this.memberid = memberid;
-        this.roleid = roleid;
         this.dailyid = dailyid;
-        this.excludemonday = excludemonday;
-        this.excludethuesday = excludethuesday;
-        this.excludewednesday = excludewednesday;
-        this.excludethursday = excludethursday;
-        this.excludefriday = excludefriday;
-        this.excludesaturday = excludesaturday;
-        this.excludesunday = excludesunday;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -69,7 +49,6 @@ public class Participant implements Entity {
         myDao = daoSession != null ? daoSession.getParticipantDao() : null;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
@@ -86,76 +65,12 @@ public class Participant implements Entity {
         this.memberid = memberid;
     }
 
-    public long getRoleid() {
-        return roleid;
-    }
-
-    public void setRoleid(long roleid) {
-        this.roleid = roleid;
-    }
-
     public long getDailyid() {
         return dailyid;
     }
 
     public void setDailyid(long dailyid) {
         this.dailyid = dailyid;
-    }
-
-    public Boolean getExcludemonday() {
-        return excludemonday;
-    }
-
-    public void setExcludemonday(Boolean excludemonday) {
-        this.excludemonday = excludemonday;
-    }
-
-    public Boolean getExcludethuesday() {
-        return excludethuesday;
-    }
-
-    public void setExcludethuesday(Boolean excludethuesday) {
-        this.excludethuesday = excludethuesday;
-    }
-
-    public Boolean getExcludewednesday() {
-        return excludewednesday;
-    }
-
-    public void setExcludewednesday(Boolean excludewednesday) {
-        this.excludewednesday = excludewednesday;
-    }
-
-    public Boolean getExcludethursday() {
-        return excludethursday;
-    }
-
-    public void setExcludethursday(Boolean excludethursday) {
-        this.excludethursday = excludethursday;
-    }
-
-    public Boolean getExcludefriday() {
-        return excludefriday;
-    }
-
-    public void setExcludefriday(Boolean excludefriday) {
-        this.excludefriday = excludefriday;
-    }
-
-    public Boolean getExcludesaturday() {
-        return excludesaturday;
-    }
-
-    public void setExcludesaturday(Boolean excludesaturday) {
-        this.excludesaturday = excludesaturday;
-    }
-
-    public Boolean getExcludesunday() {
-        return excludesunday;
-    }
-
-    public void setExcludesunday(Boolean excludesunday) {
-        this.excludesunday = excludesunday;
     }
 
     /** To-one relationship, resolved on first access. */
@@ -169,7 +84,7 @@ public class Participant implements Entity {
             Member memberNew = targetDao.load(__key);
             synchronized (this) {
                 member = memberNew;
-            	member__resolvedKey = __key;
+                member__resolvedKey = __key;
             }
         }
         return member;
@@ -187,34 +102,6 @@ public class Participant implements Entity {
     }
 
     /** To-one relationship, resolved on first access. */
-    public Role getRole() {
-        long __key = this.roleid;
-        if (role__resolvedKey == null || !role__resolvedKey.equals(__key)) {
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            RoleDao targetDao = daoSession.getRoleDao();
-            Role roleNew = targetDao.load(__key);
-            synchronized (this) {
-                role = roleNew;
-            	role__resolvedKey = __key;
-            }
-        }
-        return role;
-    }
-
-    public void setRole(Role role) {
-        if (role == null) {
-            throw new DaoException("To-one property 'roleid' has not-null constraint; cannot set to-one to null");
-        }
-        synchronized (this) {
-            this.role = role;
-            roleid = role.getId();
-            role__resolvedKey = roleid;
-        }
-    }
-
-    /** To-one relationship, resolved on first access. */
     public Daily getDaily() {
         long __key = this.dailyid;
         if (daily__resolvedKey == null || !daily__resolvedKey.equals(__key)) {
@@ -225,7 +112,7 @@ public class Participant implements Entity {
             Daily dailyNew = targetDao.load(__key);
             synchronized (this) {
                 daily = dailyNew;
-            	daily__resolvedKey = __key;
+                daily__resolvedKey = __key;
             }
         }
         return daily;
@@ -246,7 +133,7 @@ public class Participant implements Entity {
     public void delete() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.delete(this);
     }
 
@@ -254,7 +141,7 @@ public class Participant implements Entity {
     public void update() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.update(this);
     }
 
@@ -262,7 +149,7 @@ public class Participant implements Entity {
     public void refresh() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.refresh(this);
     }
 

@@ -90,5 +90,5 @@
             android:layout_gravity="right"
             android:gravity="center"
             android:layout_weight="1" />
-        </LinearLayout>
+    </LinearLayout>
 </GridLayout>

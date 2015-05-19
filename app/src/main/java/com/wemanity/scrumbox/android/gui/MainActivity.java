@@ -18,7 +18,6 @@ public class MainActivity extends RoboActivity  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().add(R.id.fragment_frame_layout, new RootFragment(), RootFragment.class.getSimpleName()).commit();
-        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 

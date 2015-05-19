@@ -83,7 +83,7 @@ public abstract class AbstractSwipeEntityAdapter<T extends Entity> extends BaseS
         SwipeLayout swipeLayout = (SwipeLayout) v.findViewById(getSwipeLayoutResourceId(position));
         View bottomLayout = swipeLayout.getBottomView();
         for (ActionViewId action : listOfActionView){
-            View actionView = bottomLayout.findViewById(action.getId());
+            View actionView = swipeLayout.findViewById(action.getId());
             actionView.setOnClickListener(this);
         }
         return v;

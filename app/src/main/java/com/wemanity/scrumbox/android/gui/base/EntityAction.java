@@ -1,5 +1,5 @@
 package com.wemanity.scrumbox.android.gui.base;
 
 public enum EntityAction {
-    UPDATE,INSERT,DELETE;
+    UPDATE,INSERT,DELETE, START_DAILY;
 }

@@ -23,20 +23,21 @@ import android.os.SystemClock;
  *  }.start();
  * </pre>
  *
- * The calls to {@link #onTick(long)} are synchronized to this object so that
- * one call to {@link #onTick(long)} won't ever occur before the previous
- * callback is complete.  This is only relevant when the implementation of
- * {@link #onTick(long)} takes an amount of time to execute that is significant
  * compared to the countdown interval.
  */
 public class CountDown {
 
     public interface CountDownEventListener{
-        void onTick(long time);
-        void onFinish(long duration);
+        void onTick(long timeLeft, long delay);
     }
 
-    private CountDownEventListener countDownEventListener;
+    private CountDownEventListener countDownEventListener = new CountDownEventListener(){
+
+        @Override
+        public void onTick(long timeLeft, long delay) {
+
+        }
+    };
 
     /**
      * Millis since epoch when alarm should stop.
@@ -72,7 +73,6 @@ public class CountDown {
      * @param millisInFuture The number of millis in the future from the call
      *   to {@link #start()}
      * @param countDownInterval The interval along the way to receive
-     *   {@link #onTick(long)} callbacks.
      */
     public CountDown(long millisInFuture, long countDownInterval) {
         this.millisInFuture = millisInFuture;
@@ -86,7 +86,6 @@ public class CountDown {
     public synchronized final void stop() {
         stop = true;
         handler.removeMessages(MSG);
-        onFinish(duration);
     }
 
     public synchronized final void pause(){
@@ -103,8 +102,9 @@ public class CountDown {
      */
     public synchronized final CountDown start() {
 
+        if(start){return this;}
+
         if (millisInFuture <= 0) {
-            onFinish(0);
             return this;
         }
         startTime = SystemClock.elapsedRealtime();
@@ -113,24 +113,16 @@ public class CountDown {
         return this;
     }
 
-
-    /**
-     * Callback fired on regular interval.
-     * @param time The amount of time until finished.
-     */
-    public void onTick(long time){
-        if (countDownEventListener != null){
-            countDownEventListener.onTick(time);
-        }
-    }
-
-    public void onFinish(long duration){
-        if (countDownEventListener != null){
-            countDownEventListener.onFinish(duration);
-        }
-    }
-
     private static final int MSG = 1000;
+
+    public void setCountDownEventListener(CountDownEventListener countDownEventListener) {
+        if (countDownEventListener == null){return;}
+        this.countDownEventListener = countDownEventListener;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
 
     // handles counting down
     private Handler handler = new Handler() {
@@ -147,7 +139,7 @@ public class CountDown {
                 final long millisSpent = stopTime - startTime;
                 duration += millisSpent;
                 long lastTickStart = SystemClock.elapsedRealtime();
-                onTick(millisInFuture - duration);
+                countDownEventListener.onTick(millisInFuture - duration, millisSpent);
                 // take into account user's onTick taking time to execute
                 long delay = lastTickStart + countdownInterval - SystemClock.elapsedRealtime();
 

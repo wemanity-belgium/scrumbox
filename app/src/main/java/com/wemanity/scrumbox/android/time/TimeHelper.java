@@ -9,11 +9,16 @@ public class TimeHelper {
     private static final long MILLIS_IN_MINUTE = 60000;
     private static final long MILLIS_IN_SECONDE = 1000;
     public static final String timeLabel = "%s %02d:%02d:%03d";
-
+    public static final String timeLabelWithoutSymbole = "%02d:%02d:%03d";
 
     public static void setTimeLabel(TextView textView, long time){
         Time formatedTime = formatTime(time);
         textView.setText(String.format(timeLabel, formatedTime.getSign(), formatedTime.getMinute(), formatedTime.getSeconde(), formatedTime.getMillis()));
+    }
+
+    public static void setTimeLabelWithoutSymbol(TextView textView, long time){
+        Time formatedTime = formatTime(time);
+        textView.setText(String.format(timeLabelWithoutSymbole, formatedTime.getMinute(), formatedTime.getSeconde(), formatedTime.getMillis()));
     }
 
     public static Time formatTime(long time){

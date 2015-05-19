@@ -1,10 +1,11 @@
 package com.wemanity.scrumbox.android.db.entity;
 
-import java.util.List;
 
-import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
 import com.wemanity.scrumbox.android.db.dao.DaoSession;
+import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
 import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
+
+import java.util.List;
 
 import de.greenrobot.dao.DaoException;
 
@@ -13,12 +14,12 @@ import de.greenrobot.dao.DaoException;
  * Entity mapped to table DAILY.
  */
 public class Daily implements Entity{
-
     private Long id;
     private String title;
     private Integer durationbyparticipant;
     private Integer switchmethod;
     private Boolean random;
+    private java.util.Date time;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -35,12 +36,13 @@ public class Daily implements Entity{
         this.id = id;
     }
 
-    public Daily(Long id, String title, Integer durationbyparticipant, Integer switchmethod, Boolean random) {
+    public Daily(Long id, String title, Integer durationbyparticipant, Integer switchmethod, Boolean random, java.util.Date time) {
         this.id = id;
         this.title = title;
         this.durationbyparticipant = durationbyparticipant;
         this.switchmethod = switchmethod;
         this.random = random;
+        this.time = time;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -49,7 +51,6 @@ public class Daily implements Entity{
         myDao = daoSession != null ? daoSession.getDailyDao() : null;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
@@ -90,6 +91,14 @@ public class Daily implements Entity{
         this.random = random;
     }
 
+    public java.util.Date getTime() {
+        return time;
+    }
+
+    public void setTime(java.util.Date time) {
+        this.time = time;
+    }
+
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
     public List<Participant> getParticipants() {
         if (participants == null) {
@@ -116,7 +125,7 @@ public class Daily implements Entity{
     public void delete() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.delete(this);
     }
 
@@ -124,7 +133,7 @@ public class Daily implements Entity{
     public void update() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.update(this);
     }
 
@@ -132,9 +141,8 @@ public class Daily implements Entity{
     public void refresh() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.refresh(this);
     }
-
 
 }

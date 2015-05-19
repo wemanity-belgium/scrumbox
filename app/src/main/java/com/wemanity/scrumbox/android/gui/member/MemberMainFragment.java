@@ -1,15 +1,12 @@
 package com.wemanity.scrumbox.android.gui.member;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.util.Attributes;
@@ -22,11 +19,9 @@ import com.wemanity.scrumbox.android.gui.RootFragment;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 import com.wemanity.scrumbox.android.gui.base.EntityAction;
 import com.wemanity.scrumbox.android.gui.base.OnEntityChangeListener;
-import com.wemanity.scrumbox.android.gui.member.dialog.MemberEditDialog;
 
 import java.util.List;
 
-import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
 public class MemberMainFragment extends BaseFragment implements View.OnClickListener,
@@ -41,12 +36,6 @@ public class MemberMainFragment extends BaseFragment implements View.OnClickList
 
     @InjectView(R.id.addMemberFAB)
     private FloatingActionButton memberFAB;
-
-    @InjectView(R.id.memberMainLayout)
-    private RelativeLayout memberLayout;
-
-    @InjectResource(R.drawable.default_profile_avatar)
-    private Drawable defaultProfileAvatar;
 
     private MemberSwipeAdapter memberAdapter;
 
@@ -73,7 +62,7 @@ public class MemberMainFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        memberAdapter.clear();
+
     }
 
     @Override
@@ -88,6 +77,7 @@ public class MemberMainFragment extends BaseFragment implements View.OnClickList
         List<Member> members = memberDao.queryBuilder().list();
 
         memberAdapter.setMode(Attributes.Mode.Single);
+        memberAdapter.clear();
         memberListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -12,7 +12,6 @@ import com.wemanity.scrumbox.android.db.dao.impl.DailyOccurrenceDao;
 import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
 import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
 import com.wemanity.scrumbox.android.db.dao.impl.ParticipationDao;
-import com.wemanity.scrumbox.android.db.dao.impl.RoleDao;
 import com.wemanity.scrumbox.android.gui.base.FragmentSwitchListener;
 import com.wemanity.scrumbox.android.gui.MainActivity;
 
@@ -45,11 +44,6 @@ public class DataBaseModule extends AbstractModule {
     @Provides
     public DailyDao getDailyDao() {
         return daoSession.getDailyDao();
-    }
-
-    @Provides
-    public RoleDao getRoleDao() {
-        return daoSession.getRoleDao();
     }
 
     @Provides

@@ -12,6 +12,10 @@
     <string name="roti_current_score">Score : </string>
     <string name="roti_number_participants">Participants : </string>
     <string name="roti_count">Count : %s</string>
+    <string name="daily_person_duration">Duration/pers</string>
+    <string name="seconds">seconds</string>
+    <string name="daily_participants">Participants :</string>
+    <string name="daily_title">Title : </string>
     <string-array name="list_module">
         <item>Daily</item>
         <item>Member</item>

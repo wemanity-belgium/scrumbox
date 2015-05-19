@@ -1,10 +1,11 @@
 package com.wemanity.scrumbox.android.db.entity;
 
-import java.util.List;
-
-import com.wemanity.scrumbox.android.db.dao.impl.DailyOccurrenceDao;
 import com.wemanity.scrumbox.android.db.dao.DaoSession;
+import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
+import com.wemanity.scrumbox.android.db.dao.impl.DailyOccurrenceDao;
 import com.wemanity.scrumbox.android.db.dao.impl.ParticipationDao;
+
+import java.util.List;
 
 import de.greenrobot.dao.DaoException;
 
@@ -13,16 +14,19 @@ import de.greenrobot.dao.DaoException;
  * Entity mapped to table DAILY_OCCURRENCE.
  */
 public class DailyOccurrence implements Entity {
-
     private Long id;
     private java.util.Date dateexecuted;
     private Long totaltime;
+    private long dailyid;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
 
     /** Used for active entity operations. */
     private transient DailyOccurrenceDao myDao;
+
+    private Daily daily;
+    private Long daily__resolvedKey;
 
     private List<Participation> participations;
 
@@ -33,10 +37,11 @@ public class DailyOccurrence implements Entity {
         this.id = id;
     }
 
-    public DailyOccurrence(Long id, java.util.Date dateexecuted, Long totaltime) {
+    public DailyOccurrence(Long id, java.util.Date dateexecuted, Long totaltime, long dailyid) {
         this.id = id;
         this.dateexecuted = dateexecuted;
         this.totaltime = totaltime;
+        this.dailyid = dailyid;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -45,7 +50,6 @@ public class DailyOccurrence implements Entity {
         myDao = daoSession != null ? daoSession.getDailyOccurrenceDao() : null;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
@@ -68,6 +72,42 @@ public class DailyOccurrence implements Entity {
 
     public void setTotaltime(Long totaltime) {
         this.totaltime = totaltime;
+    }
+
+    public long getDailyid() {
+        return dailyid;
+    }
+
+    public void setDailyid(long dailyid) {
+        this.dailyid = dailyid;
+    }
+
+    /** To-one relationship, resolved on first access. */
+    public Daily getDaily() {
+        long __key = this.dailyid;
+        if (daily__resolvedKey == null || !daily__resolvedKey.equals(__key)) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            DailyDao targetDao = daoSession.getDailyDao();
+            Daily dailyNew = targetDao.load(__key);
+            synchronized (this) {
+                daily = dailyNew;
+                daily__resolvedKey = __key;
+            }
+        }
+        return daily;
+    }
+
+    public void setDaily(Daily daily) {
+        if (daily == null) {
+            throw new DaoException("To-one property 'dailyid' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.daily = daily;
+            dailyid = daily.getId();
+            daily__resolvedKey = dailyid;
+        }
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
@@ -96,7 +136,7 @@ public class DailyOccurrence implements Entity {
     public void delete() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.delete(this);
     }
 
@@ -104,7 +144,7 @@ public class DailyOccurrence implements Entity {
     public void update() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.update(this);
     }
 
@@ -112,7 +152,7 @@ public class DailyOccurrence implements Entity {
     public void refresh() {
         if (myDao == null) {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.refresh(this);
     }
 
