@@ -13,6 +13,7 @@ import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
 import com.wemanity.scrumbox.android.db.entity.Member;
+import com.wemanity.scrumbox.android.gui.base.AbstractEntityEditDialog;
 import com.wemanity.scrumbox.android.gui.base.EntityAction;
 import com.wemanity.scrumbox.android.gui.base.OnEntityChangeListener;
 import com.wemanity.scrumbox.android.util.StringUtils;
@@ -24,7 +25,7 @@ import roboguice.fragment.provided.RoboDialogFragment;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
-public class MemberEditDialog extends RoboDialogFragment implements View.OnClickListener, View.OnKeyListener {
+public class MemberEditDialog extends AbstractEntityEditDialog<Member> implements View.OnKeyListener {
     private OnEntityChangeListener<Member> onEntityChangeListener;
 
     private boolean insertMode;
@@ -38,11 +39,6 @@ public class MemberEditDialog extends RoboDialogFragment implements View.OnClick
     @InjectView(R.id.memberAvatarImageView)
     private ImageView memberAvatar;
 
-    @InjectResource(R.string.daily_participant_time_left)
-    private String s;
-
-    private Member member;
-
     public static MemberEditDialog newInstance(){
         MemberEditDialog frag = new MemberEditDialog();
         return frag;
@@ -51,74 +47,41 @@ public class MemberEditDialog extends RoboDialogFragment implements View.OnClick
     public static MemberEditDialog newInstance(Member member){
         MemberEditDialog frag = new MemberEditDialog();
         Bundle args = new Bundle();
-        args.putSerializable("member", member);
+        args.putSerializable("entity", member);
         frag.setArguments(args);
         return frag;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        if (args != null && args.containsKey("member")) {
-            member = (Member) args.get("member");
-        }
-        insertMode = (member == null);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.new_member_dialog, container, false);
+    protected int getLayoutId() {
+        return R.layout.new_member_dialog;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getDialog().setTitle(getTitle());
-        view.findViewById(R.id.positiveButton).setOnClickListener(this);
-        view.findViewById(R.id.negativeButton).setOnClickListener(this);
-        init();
-    }
-
-    private void init(){
-        memberNicknameEdit.setOnKeyListener(this);
-        if (!insertMode){
-            memberNicknameEdit.setText(member.getNickname());
-            memberNicknameEdit.setSelection(0, member.getNickname().length());
-        }
-    }
-
-    private String getTitle(){
+    protected String getTitle(boolean insertMode, Member entity){
         String title;
         if (insertMode){
             title = getActivity().getString(R.string.new_member);
         } else {
             title = getActivity().getString(R.string.edit_member);
-            title = String.format(title, member.getNickname());
+            title = String.format(title, entity.getNickname());
         }
         return title;
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.positiveButton:
-                if (valideInput()){
-                    if (insertMode) {
-                        insertMember();
-                    } else{
-                        updateMember();
-                    }
-                    dismiss();
-                }
-                break;
-            case R.id.negativeButton:
-                dismiss();
-        }
+    protected void initializeView(View view, Bundle savedInstanceState) {
+        memberNicknameEdit.setOnKeyListener(this);
     }
 
-    private boolean valideInput(){
+    @Override
+    protected void bindEntity(View view, Bundle savedInstanceState, Member entity) {
+        memberNicknameEdit.setText(entity.getNickname());
+        memberNicknameEdit.setSelection(0, entity.getNickname().length());
+    }
+
+    @Override
+    protected boolean valideInput(){
         if (StringUtils.clear(memberNicknameEdit).isEmpty()){
             memberNicknameEdit.setError(getActivity().getString(R.string.nickname_empty));
             return false;
@@ -126,35 +89,23 @@ public class MemberEditDialog extends RoboDialogFragment implements View.OnClick
         return true;
     }
 
-    private void updateMember(){
+    @Override
+    protected void update(Member entity){
         String newNickname = StringUtils.clear(memberNicknameEdit);
-        if (!newNickname.equals(member.getNickname())){
-            member.setNickname(newNickname);
-            memberDao.update(member);
-            notifyEntityChangeListener();
+        if (!newNickname.equals(entity.getNickname())){
+            entity.setNickname(newNickname);
+            memberDao.update(entity);
         }
     }
 
-    private void insertMember(){
-        member = new Member();
+    @Override
+    protected Member insert(){
+        Member member = new Member();
         member.setNickname(StringUtils.clear(memberNicknameEdit));
         memberDao.insert(member);
-        notifyEntityChangeListener();
+        return member;
     }
 
-    private void notifyEntityChangeListener(){
-        if (onEntityChangeListener != null){
-            onEntityChangeListener.onEntityChange(insertMode? EntityAction.INSERT : EntityAction.UPDATE, member);
-        }
-    }
-
-    public OnEntityChangeListener<Member> getOnEntityChangeListener() {
-        return onEntityChangeListener;
-    }
-
-    public void setOnEntityChangeListener(OnEntityChangeListener<Member> onEntityChangeListener) {
-        this.onEntityChangeListener = onEntityChangeListener;
-    }
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {

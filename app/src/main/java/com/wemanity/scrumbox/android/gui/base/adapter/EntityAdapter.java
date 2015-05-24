@@ -1,21 +1,18 @@
 package com.wemanity.scrumbox.android.gui.base.adapter;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.DataSetObserver;
-import android.util.Log;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CursorAdapter;
+import android.widget.Checkable;
 import android.widget.Filter;
-import android.widget.ListAdapter;
+import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.wemanity.scrumbox.android.db.entity.Entity;
-import com.wemanity.scrumbox.android.db.entity.Member;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +20,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
+
+    public interface PropertyBinder {
+        boolean bind(View v, String propertyName, Object propertyValue);
+    }
+
     /**
      * Contains the list of objects that represent the data of this ArrayAdapter.
      * The content of this list is referred to as "the array" in the documentation.
@@ -43,7 +46,7 @@ public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
      * The resource indicating what views to inflate to display the content of this
      * array adapter.
      */
-    private int mResource;
+    protected int mResource;
 
     /**
      * The resource indicating what views to inflate to display the content of this
@@ -63,8 +66,17 @@ public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
     // the mFilter ArrayFilter is used. mObjects will then only contain the filtered values.
     private ArrayList<T> mOriginalValues;
     private ArrayFilter mFilter;
+    protected LayoutInflater mInflater;
+    private int[] mTo;
+    private String[] mFrom;
 
-    private LayoutInflater mInflater;
+    private PropertyBinder propertyBinder = new PropertyBinder() {
+
+        @Override
+        public boolean bind(View v, String propertyName, Object propertyValue) {
+            return false;
+        }
+    };
 
 
     /**
@@ -74,8 +86,8 @@ public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
      * @param resource The resource ID for a layout file containing a TextView to use when
      *                 instantiating views.
      */
-    public EntityAdapter(Context context, int resource) {
-        init(context, resource, new ArrayList<T>());
+    public EntityAdapter(Context context, int resource, int[] viewIds, String[] propetiesName) {
+        init(context, resource, new ArrayList<T>(), viewIds, propetiesName);
     }
 
     /**
@@ -86,8 +98,8 @@ public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
      *                 instantiating views.
      * @param objects The objects to represent in the ListView.
      */
-    public EntityAdapter(Context context, int resource, T[] objects) {
-        init(context, resource, Arrays.asList(objects));
+    public EntityAdapter(Context context, int resource, T[] objects, int[] viewIds, String[] propetiesName) {
+        init(context, resource, Arrays.asList(objects), viewIds, propetiesName);
     }
 
 
@@ -99,8 +111,8 @@ public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
      *                 instantiating views.
      * @param objects The objects to represent in the ListView.
      */
-    public EntityAdapter(Context context, int resource, List<T> objects) {
-        init(context, resource, objects);
+    public EntityAdapter(Context context, int resource, Collection<T> objects, int[] viewIds, String[] propetiesName) {
+        init(context, resource, objects, viewIds, propetiesName);
     }
 
 
@@ -243,11 +255,13 @@ public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
         mNotifyOnChange = notifyOnChange;
     }
 
-    private void init(Context context, int resource, List<T> objects) {
+    private void init(Context context, int resource, Collection<T> objects, int[] viewIds, String[] propetiesName) {
         mContext = context;
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mResource = mDropDownResource = resource;
-        mObjects = objects;
+        mObjects = new ArrayList<>(objects);
+        mFrom = propetiesName;
+        mTo = viewIds;
     }
 
     /**
@@ -309,12 +323,119 @@ public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
         }
 
         T item = getItem(position);
-        populateView(view, item);
+        bindView(item, view);
 
         return view;
     }
 
-    protected abstract void populateView(View view, T item);
+    protected void bindView(T entity, View view) {
+        if (entity == null) {
+            return;
+        }
+
+        final String[] from = mFrom;
+        final int[] to = mTo;
+        final int count = to.length;
+
+        for (int i = 0; i < count; i++) {
+            final View v = view.findViewById(to[i]);
+            if (v != null) {
+                final Object data = entity.getProperty(from[i]);
+                String text = data == null ? "" : data.toString();
+                if (text == null) {
+                    text = "";
+                }
+
+                boolean bound = false;
+                if (propertyBinder != null) {
+                    bound = propertyBinder.bind(v,from[i],data);
+                }
+
+                if (!bound) {
+                    if (v instanceof Checkable) {
+                        if (data instanceof Boolean) {
+                            ((Checkable) v).setChecked((Boolean) data);
+                        } else if (v instanceof TextView) {
+                            // Note: keep the instanceof TextView check at the bottom of these
+                            // ifs since a lot of views are TextViews (e.g. CheckBoxes).
+                            setViewText((TextView) v, text);
+                        } else {
+                            throw new IllegalStateException(v.getClass().getName() +
+                                    " should be bound to a Boolean, not a " +
+                                    (data == null ? "<unknown type>" : data.getClass()));
+                        }
+                    } else if (v instanceof TextView) {
+                        // Note: keep the instanceof TextView check at the bottom of these
+                        // ifs since a lot of views are TextViews (e.g. CheckBoxes).
+                        setViewText((TextView) v, text);
+                    } else if (v instanceof ImageView) {
+                        if (data instanceof Integer) {
+                            setViewImage((ImageView) v, (Integer) data);
+                        } else {
+                            setViewImage((ImageView) v, text);
+                        }
+                    } else {
+                        throw new IllegalStateException(v.getClass().getName() + " is not a " +
+                                " view that can be bounds by this SimpleAdapter");
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Called by bindView() to set the image for an ImageView but only if
+     * there is no existing ViewBinder or if the existing ViewBinder cannot
+     * handle binding to an ImageView.
+     *
+     * This method is called instead of {@link #setViewImage(ImageView, String)}
+     * if the supplied data is an int or Integer.
+     *
+     * @param v ImageView to receive an image
+     * @param value the value retrieved from the data set
+     *
+     * @see #setViewImage(ImageView, String)
+     */
+    public void setViewImage(ImageView v, int value) {
+        v.setImageResource(value);
+    }
+
+    /**
+     * Called by bindView() to set the image for an ImageView but only if
+     * there is no existing ViewBinder or if the existing ViewBinder cannot
+     * handle binding to an ImageView.
+     *
+     * By default, the value will be treated as an image resource. If the
+     * value cannot be used as an image resource, the value is used as an
+     * image Uri.
+     *
+     * This method is called instead of {@link #setViewImage(ImageView, int)}
+     * if the supplied data is not an int or Integer.
+     *
+     * @param v ImageView to receive an image
+     * @param value the value retrieved from the data set
+     *
+     * @see #setViewImage(ImageView, int)
+     */
+    public void setViewImage(ImageView v, String value) {
+        try {
+            v.setImageResource(Integer.parseInt(value));
+        } catch (NumberFormatException nfe) {
+            v.setImageURI(Uri.parse(value));
+        }
+    }
+
+    /**
+     * Called by bindView() to set the text for a TextView but only if
+     * there is no existing ViewBinder or if the existing ViewBinder cannot
+     * handle binding to a TextView.
+     *
+     * @param v TextView to receive text
+     * @param text the text to be set for the TextView
+     */
+    public void setViewText(TextView v, String text) {
+        v.setText(text);
+    }
 
     /**
      * <p>Sets the layout resource to create the drop down views.</p>
@@ -332,6 +453,14 @@ public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         return createViewFromResource(position, convertView, parent, mDropDownResource);
+    }
+
+    public PropertyBinder getPropertyBinder() {
+        return propertyBinder;
+    }
+
+    public void setPropertyBinder(PropertyBinder propertyBinder) {
+        this.propertyBinder = propertyBinder;
     }
 
     /**

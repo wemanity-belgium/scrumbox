@@ -16,7 +16,6 @@ import com.wemanity.scrumbox.android.db.entity.Daily;
 import com.wemanity.scrumbox.android.db.entity.DailyOccurrence;
 import com.wemanity.scrumbox.android.db.entity.Participant;
 import com.wemanity.scrumbox.android.db.entity.Participation;
-import com.wemanity.scrumbox.android.gui.RootFragment;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 import com.wemanity.scrumbox.android.time.CountDown;
 import com.wemanity.scrumbox.android.time.TimeHelper;
@@ -27,9 +26,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.Executor;
-
-import roboguice.fragment.provided.RoboFragment;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 

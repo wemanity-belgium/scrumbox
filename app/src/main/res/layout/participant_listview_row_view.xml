@@ -21,11 +21,4 @@
             android:id="@+id/memberNickNameTextView"
             android:layout_gravity="center_vertical"
             android:layout_weight="1" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/memberParticipationCheckBox"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="5dp" />
 </LinearLayout>

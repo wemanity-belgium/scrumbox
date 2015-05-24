@@ -28,6 +28,16 @@ public class Member implements Entity {
         return id;
     }
 
+    @Override
+    public Object getProperty(String propertyName) {
+        switch (propertyName){
+            case "nickname":
+                return nickname;
+            default:
+                return null;
+        }
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

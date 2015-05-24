@@ -1,6 +1,5 @@
 package com.wemanity.scrumbox.android.gui;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,12 +19,11 @@ public class MainActivity extends RoboActivity  {
         getFragmentManager().beginTransaction().add(R.id.fragment_frame_layout, new RootFragment(), RootFragment.class.getSimpleName()).commit();
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         return true;
     }
 
@@ -44,9 +42,5 @@ public class MainActivity extends RoboActivity  {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void goBack(){
-
     }
 }

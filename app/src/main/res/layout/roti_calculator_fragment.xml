@@ -72,7 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            class="com.wemanity.scrumbox.android.gui.RotiScoreView"
+            class="com.wemanity.scrumbox.android.gui.roti.RotiScoreView"
             android:id="@+id/rotiScoreZeroView"
             app:score="zero"
             app:image="@drawable/roti_zero"/>
@@ -80,7 +80,7 @@
         <view
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            class="com.wemanity.scrumbox.android.gui.RotiScoreView"
+            class="com.wemanity.scrumbox.android.gui.roti.RotiScoreView"
             android:id="@+id/rotiScoreOneView"
             app:score="one"
             app:image="@drawable/roti_one"
@@ -101,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            class="com.wemanity.scrumbox.android.gui.RotiScoreView"
+            class="com.wemanity.scrumbox.android.gui.roti.RotiScoreView"
             android:id="@+id/rotiScoreTwoView"
             app:score="two"
             app:image="@drawable/roti_two"/>
@@ -110,7 +110,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            class="com.wemanity.scrumbox.android.gui.RotiScoreView"
+            class="com.wemanity.scrumbox.android.gui.roti.RotiScoreView"
             android:id="@+id/rotiScoreThreeView"
             app:score="three"
             app:image="@drawable/roti_three" />
@@ -130,7 +130,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            class="com.wemanity.scrumbox.android.gui.RotiScoreView"
+            class="com.wemanity.scrumbox.android.gui.roti.RotiScoreView"
             android:id="@+id/rotiScoreFourView"
             app:score="four"
             app:image="@drawable/roti_four"/>
@@ -139,7 +139,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            class="com.wemanity.scrumbox.android.gui.RotiScoreView"
+            class="com.wemanity.scrumbox.android.gui.roti.RotiScoreView"
             android:id="@+id/rotiScoreFiveView"
             app:score="five"
             app:image="@drawable/roti_five"/>

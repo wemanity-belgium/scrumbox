@@ -46,7 +46,6 @@ public class DailyMainFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
         dailyAdapter = new DailySwipeAdapter(getActivity());
         dailyAdapter.setOnEntityChangeListener(new OnEntityChangeListener<Daily>() {
             @Override

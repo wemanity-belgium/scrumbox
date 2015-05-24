@@ -1,4 +1,4 @@
-package com.wemanity.scrumbox.android.gui;
+package com.wemanity.scrumbox.android.gui.roti;
 
 import android.content.Context;
 import android.content.res.TypedArray;

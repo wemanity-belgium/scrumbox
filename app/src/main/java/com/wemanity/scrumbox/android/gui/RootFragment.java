@@ -32,7 +32,7 @@ public class RootFragment extends BaseFragment implements AdapterView.OnItemClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+        //getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     @Override

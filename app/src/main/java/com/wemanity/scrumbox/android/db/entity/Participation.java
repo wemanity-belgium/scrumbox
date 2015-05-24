@@ -52,6 +52,11 @@ public class Participation implements Entity {
         return id;
     }
 
+    @Override
+    public Object getProperty(String property) {
+        return null;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

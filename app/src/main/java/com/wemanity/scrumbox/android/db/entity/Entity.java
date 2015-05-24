@@ -6,5 +6,5 @@ import de.greenrobot.dao.Property;
 
 public interface Entity extends Serializable{
     Long getId();
-    //String getProperty(Property property);
+    Object getProperty(String propertyName);
 }

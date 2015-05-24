@@ -12,8 +12,7 @@ import android.widget.TextView;
 
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.gui.RootFragment;
-import com.wemanity.scrumbox.android.gui.RotiScoreView;
-import com.wemanity.scrumbox.android.gui.RotiScoreView.RotiScore;
+import com.wemanity.scrumbox.android.gui.roti.RotiScoreView.RotiScore;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 
 import java.math.BigDecimal;

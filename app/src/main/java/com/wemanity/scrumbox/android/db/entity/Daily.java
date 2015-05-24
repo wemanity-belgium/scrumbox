@@ -121,6 +121,11 @@ public class Daily implements Entity{
         participants = null;
     }
 
+    @Override
+    public String getProperty(String property) {
+        return null;
+    }
+
     /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */
     public void delete() {
         if (myDao == null) {

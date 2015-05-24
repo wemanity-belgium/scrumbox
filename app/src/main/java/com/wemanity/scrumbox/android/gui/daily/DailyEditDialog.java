@@ -1,13 +1,9 @@
 package com.wemanity.scrumbox.android.gui.daily;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
@@ -17,16 +13,18 @@ import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
 import com.wemanity.scrumbox.android.db.entity.Daily;
 import com.wemanity.scrumbox.android.db.entity.Member;
 import com.wemanity.scrumbox.android.db.entity.Participant;
-import com.wemanity.scrumbox.android.gui.base.EntityAction;
-import com.wemanity.scrumbox.android.gui.base.OnEntityChangeListener;
+import com.wemanity.scrumbox.android.gui.base.AbstractEntityEditDialog;
+import com.wemanity.scrumbox.android.gui.base.adapter.select.EntitySelectionAdapter;
 import com.wemanity.scrumbox.android.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import roboguice.fragment.provided.RoboDialogFragment;
+import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
-public class DailyEditDialog extends RoboDialogFragment implements View.OnClickListener{
+public class DailyEditDialog extends AbstractEntityEditDialog<Daily>{
     @Inject
     private MemberDao memberDao;
 
@@ -39,24 +37,18 @@ public class DailyEditDialog extends RoboDialogFragment implements View.OnClickL
     @InjectView(R.id.dailyParticipantListView)
     private ListView dailyparticipantListView;
 
-    @InjectView(R.id.negativeButton)
-    private TextView cancelButton;
-
-    @InjectView(R.id.positiveButton)
-    private TextView saveButton;
-
     @InjectView(R.id.durationEditText)
     private EditText durationEditText;
 
     @InjectView(R.id.titleEditText)
     private EditText titleEditText;
 
-    private OnEntityChangeListener<Daily> onEntityChangeListener;
+    @InjectResource(R.string.daily_insert)
+    private String insertTitle;
 
-    private boolean insertMode;
+    @InjectResource(R.string.daily_update)
+    private String updateTitle;
 
-
-    private Daily daily;
 
     public static DailyEditDialog newInstance(){
         DailyEditDialog frag = new DailyEditDialog();
@@ -66,112 +58,81 @@ public class DailyEditDialog extends RoboDialogFragment implements View.OnClickL
     public static DailyEditDialog newInstance(Daily daily){
         DailyEditDialog frag = new DailyEditDialog();
         Bundle args = new Bundle();
-        args.putSerializable("daily", daily);
+        args.putSerializable("entity", daily);
         frag.setArguments(args);
         return frag;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        if (args != null && args.containsKey("daily")) {
-            daily = (Daily) args.get("daily");
-        }
-        insertMode = (daily == null);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.new_daily_dialog, container, false);
+    protected int getLayoutId() {
+        return R.layout.new_daily_dialog;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected String getTitle(boolean insertMode, Daily entity) {
+        return insertMode? insertTitle : String.format(updateTitle, entity.getTitle());
+    }
+
+    @Override
+    protected void initializeView(View view, Bundle savedInstanceState) {
         List<Member> members = memberDao.queryBuilder().list();
-        if (daily == null){
-            dailyparticipantListView.setAdapter(new MemberSelectionAdapter(this.getActivity(),members,R.layout.participant_listview_row_view, R.id.memberParticipationCheckBox));
-        } else {
-            titleEditText.setText(daily.getTitle());
-            durationEditText.setText(daily.getDurationbyparticipant());
-            dailyparticipantListView.setAdapter(new MemberSelectionAdapter(this.getActivity(),members,R.layout.participant_listview_row_view, R.id.memberParticipationCheckBox, daily.getParticipants()));
-        }
-        cancelButton.setOnClickListener(this);
-        saveButton.setOnClickListener(this);
+        dailyparticipantListView.setAdapter(new EntitySelectionAdapter<>(this.getActivity(),members,R.layout.participant_listview_row_view, new int[]{R.id.memberNickNameTextView}, new String[]{"nickname"}));
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.positiveButton:
-                if (valideInput()){
-                    if (insertMode) {
-                        insertDaily();
-                    } else{
-                        upateDaily();
-                    }
-                    dismiss();
-                }
-                break;
-            case R.id.negativeButton:
-                dismiss();
+    protected void bindEntity(View view, Bundle savedInstanceState, Daily entity) {
+        titleEditText.setText(entity.getTitle());
+        durationEditText.setText(String.valueOf(entity.getDurationbyparticipant()));
+        List<Member> selectedMembers = new ArrayList<>();
+        for (Participant participant : entity.getParticipants()){
+            selectedMembers.add(participant.getMember());
         }
+        EntitySelectionAdapter<Member> adapter = (EntitySelectionAdapter)dailyparticipantListView.getAdapter();
+        adapter.addSelectedEntities(selectedMembers);
     }
 
-    private boolean valideInput(){
-        return !((MemberSelectionAdapter)dailyparticipantListView.getAdapter()).getMemberParticipent().isEmpty() &&
+
+    @Override
+    protected boolean valideInput(){
+        return !((EntitySelectionAdapter)dailyparticipantListView.getAdapter()).getSelectedEntities().isEmpty() &&
                !StringUtils.clear(durationEditText).isEmpty() &&
                !StringUtils.clear(titleEditText).isEmpty();
     }
 
-    private void insertDaily(){
-        daily = new Daily();
+    @Override
+    protected Daily insert(){
+        Daily daily = new Daily();
         daily.setDurationbyparticipant(new Integer(StringUtils.clear(durationEditText)));
         daily.setTitle(titleEditText.getText().toString());
         dailyDao.insert(daily);
-        List<Member> members = ((MemberSelectionAdapter)dailyparticipantListView.getAdapter()).getMemberParticipent();
+        Set<Member> members = ((EntitySelectionAdapter)dailyparticipantListView.getAdapter()).getSelectedEntities();
         for (Member member : members){
             Participant participant = new Participant();
             participant.setMember(member);
             participant.setDaily(daily);
             participantDao.insert(participant);
         }
-        notifyEntityChangeListener();
+        return daily;
     }
 
-    private void upateDaily(){
-        daily.setDurationbyparticipant(new Integer(StringUtils.clear(durationEditText)));
-        daily.setTitle(titleEditText.getText().toString());
-        List<Member> members = ((MemberSelectionAdapter)dailyparticipantListView.getAdapter()).getMemberParticipent();
-        List<Participant> participants = daily.getParticipants();
+    @Override
+    protected void update(Daily entity){
+        entity.setDurationbyparticipant(new Integer(StringUtils.clear(durationEditText)));
+        entity.setTitle(titleEditText.getText().toString());
+        Set<Member> members = ((EntitySelectionAdapter)dailyparticipantListView.getAdapter()).getSelectedEntities();
+        List<Participant> participants = entity.getParticipants();
         for(Participant participant : participants){
             if (!members.contains(participant.getMember())){
                 participant.delete();
-                members.remove(participant.getMember());
             }
         }
-        daily.update();
+        entity.update();
         for (Member member : members){
             Participant participant = new Participant();
             participant.setMember(member);
-            participant.setDaily(daily);
+            participant.setDaily(entity);
             participantDao.insert(participant);
         }
-    }
-
-    private void notifyEntityChangeListener(){
-        if (onEntityChangeListener != null){
-            onEntityChangeListener.onEntityChange(insertMode? EntityAction.INSERT : EntityAction.UPDATE, daily);
-        }
-    }
-
-    public OnEntityChangeListener<Daily> getOnEntityChangeListener() {
-        return onEntityChangeListener;
-    }
-
-    public void setOnEntityChangeListener(OnEntityChangeListener<Daily> onEntityChangeListener) {
-        this.onEntityChangeListener = onEntityChangeListener;
+        entity.resetParticipants();
     }
 }
