@@ -2,8 +2,11 @@ package com.wemanity.scrumbox.android.gui.daily;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +34,7 @@ import roboguice.inject.InjectView;
 
 
 public class DailyProgressFragment extends BaseFragment implements View.OnClickListener, CountDown.CountDownEventListener{
-
-    @InjectView(R.id.dailyStartButton) private Button startButton;
+    @InjectView(R.id.dailyTitleTextView) private TextView dailyTitleTextView;
     @InjectView(R.id.dailyTotalTimeValueTextView) private TextView totalTimeValueTextView;
     @InjectView(R.id.dailyParticipantTimeLeftValueTextView) private TextView participantTimeLeftValueTextView;
     @InjectView(R.id.dailyParticipantTimeLeftitleTextView) private TextView participantTimeLeftTitleTextView;
@@ -78,21 +80,19 @@ public class DailyProgressFragment extends BaseFragment implements View.OnClickL
         super.onViewCreated(view, savedInstanceState);
         dailyTotalTimeTitleTextView.setText(totalTimeTile);
         participantPictureLayout.setBackground(dedaultProfilAvatar);
-
-        startButton.setOnClickListener(this);
+        participantPictureLayout.setOnClickListener(this);
         initialize();
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.dailyStartButton:
-                if (countDown.isStart()){break;}
-                participantPictureLayout.setOnClickListener(this);
-                countDown.start();
-                break;
             case R.id.participantPictureLayout:
-                nextParticipant();
+                if (!countDown.isStart()){
+                    countDown.start();
+                } else {
+                    nextParticipant();
+                }
                 break;
         }
     }
@@ -109,8 +109,9 @@ public class DailyProgressFragment extends BaseFragment implements View.OnClickL
         } else {
             participantInProgress = participantIterator.next();
             participantTimeLeftTitleTextView.setText(String.format(participantTimeLeft, participantInProgress.getMember().getNickname()));
-
-            countDown = new CountDown(daily.getDurationbyparticipant() * 1000);
+            participantTimeLeftValueTextView.setTextColor(Color.BLACK);
+            long timeRecieveFromPreviusParticipant = countDown.getTimeLeft();
+            countDown = new CountDown((daily.getDurationbyparticipant() * 1000) + timeRecieveFromPreviusParticipant);
             countDown.setCountDownEventListener(this);
             countDown.start();
         }
@@ -127,6 +128,7 @@ public class DailyProgressFragment extends BaseFragment implements View.OnClickL
             TimeHelper.setTimeLabelWithoutSymbol(totalTimeValueTextView, 0);
         }
         dailyOccurrence.setDateexecuted(new Date());
+        dailyTitleTextView.setText(daily.getTitle());
     }
 
     private void terminateDaily(){
@@ -148,6 +150,18 @@ public class DailyProgressFragment extends BaseFragment implements View.OnClickL
         TimeHelper.setTimeLabel(participantTimeLeftValueTextView, timeLeft);
         totalDuration += duration;
         TimeHelper.setTimeLabelWithoutSymbol(totalTimeValueTextView, totalDuration);
+    }
+
+    @Override
+    public void onTimeIsUp() {
+        participantTimeLeftValueTextView.setTextColor(Color.RED);
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getActivity(), notification);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

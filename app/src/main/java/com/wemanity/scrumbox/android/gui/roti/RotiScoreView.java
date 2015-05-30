@@ -95,7 +95,7 @@ public class RotiScoreView extends FrameLayout implements View.OnClickListener{
         imageButton.setOnClickListener(this);
         addView(imageButton, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         badgeView = new BadgeView(context, imageButton);
-        badgeView.setBadgeMargin(30);
+        badgeView.setBadgeMargin(20);
         updateBadge();
     }
 

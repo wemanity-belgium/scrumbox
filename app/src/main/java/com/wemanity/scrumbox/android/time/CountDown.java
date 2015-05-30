@@ -29,12 +29,18 @@ public class CountDown {
 
     public interface CountDownEventListener{
         void onTick(long timeLeft, long delay);
+        void onTimeIsUp();
     }
 
     private CountDownEventListener countDownEventListener = new CountDownEventListener(){
 
         @Override
         public void onTick(long timeLeft, long delay) {
+
+        }
+
+        @Override
+        public void onTimeIsUp() {
 
         }
     };
@@ -58,6 +64,8 @@ public class CountDown {
     private boolean stop = false;
 
     private boolean start = false;
+
+    private boolean isPositive = true;
 
     /**
      * @param millisInFuture The number of millis in the future from the call
@@ -104,9 +112,6 @@ public class CountDown {
 
         if(start){return this;}
 
-        if (millisInFuture <= 0) {
-            return this;
-        }
         startTime = SystemClock.elapsedRealtime();
         start = true;
         handler.sendMessage(handler.obtainMessage(MSG));
@@ -124,6 +129,10 @@ public class CountDown {
         return duration;
     }
 
+    public long getTimeLeft(){
+        return millisInFuture - duration;
+    }
+
     // handles counting down
     private Handler handler = new Handler() {
 
@@ -139,7 +148,12 @@ public class CountDown {
                 final long millisSpent = stopTime - startTime;
                 duration += millisSpent;
                 long lastTickStart = SystemClock.elapsedRealtime();
-                countDownEventListener.onTick(millisInFuture - duration, millisSpent);
+                long timeLeft = millisInFuture - duration;
+                if (isPositive && timeLeft < 0){
+                    isPositive = false;
+                    countDownEventListener.onTimeIsUp();
+                }
+                countDownEventListener.onTick(timeLeft, millisSpent);
                 // take into account user's onTick taking time to execute
                 long delay = lastTickStart + countdownInterval - SystemClock.elapsedRealtime();
 

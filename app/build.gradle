@@ -55,6 +55,7 @@ dependencies {
     compile 'com.afollestad:material-dialogs:0.6.3.0'
     compile 'com.daimajia.swipelayout:library:1.1.8'
     compile 'com.daimajia.androidanimations:library:1.1.2@aar'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile project(':slidingmenu')
     compile files('libs/android-viewbadger.jar')
 }

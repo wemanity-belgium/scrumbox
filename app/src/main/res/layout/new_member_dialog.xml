@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:columnCount="2"
-    android:rowCount="5"
+    android:rowCount="7"
     android:useDefaultMargins="false">
 
     <TextView
@@ -31,29 +31,29 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/avatar"
         android:id="@+id/memberAvatarTextView"
-        android:layout_row="1"
+        android:layout_row="2"
         android:layout_column="0"
         android:layout_columnSpan="2"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/memberAvatarImageView"
-        android:layout_row="2"
+    <view
+        class="com.wemanity.scrumbox.android.gui.base.ImageReplacerView"
+        android:id="@+id/memberCameraView"
+        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_row="3"
         android:layout_column="0"
         android:layout_columnSpan="2"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/default_profile_avatar"
         android:layout_gravity="center"/>
 
-    <ImageView android:layout_width="300dp"
+    <ImageView
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_row="3"
+        android:layout_row="4"
         android:layout_column="0"
         android:background="@drawable/divider"
         android:layout_gravity="center_horizontal"
@@ -62,7 +62,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:layout_row="4"
+        android:layout_row="6"
         android:layout_column="0"
         android:layout_columnSpan="2">
         <Space
@@ -91,4 +91,6 @@
             android:gravity="center"
             android:layout_weight="1" />
     </LinearLayout>
+
+
 </GridLayout>

@@ -12,6 +12,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/dailyTitleTextView"
         android:gravity="center_horizontal"
+        android:textSize="60sp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
@@ -27,7 +28,6 @@
         android:linksClickable="true"
         android:lines="1"
         android:textColor="@android:color/black" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,12 +67,6 @@
         android:layout_marginLeft="5dp"
         android:gravity="center_horizontal"
         android:layout_marginRight="10dp" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dailyStartButton"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/action_start" />
 
 </LinearLayout>
 

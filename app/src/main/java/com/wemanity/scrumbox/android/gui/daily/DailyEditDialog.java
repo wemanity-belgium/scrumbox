@@ -18,6 +18,8 @@ import com.wemanity.scrumbox.android.gui.base.adapter.select.EntitySelectionAdap
 import com.wemanity.scrumbox.android.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -119,11 +121,16 @@ public class DailyEditDialog extends AbstractEntityEditDialog<Daily>{
     protected void update(Daily entity){
         entity.setDurationbyparticipant(new Integer(StringUtils.clear(durationEditText)));
         entity.setTitle(titleEditText.getText().toString());
-        Set<Member> members = ((EntitySelectionAdapter)dailyparticipantListView.getAdapter()).getSelectedEntities();
+        Set<Member> members = new HashSet(((EntitySelectionAdapter)dailyparticipantListView.getAdapter()).getSelectedEntities());
         List<Participant> participants = entity.getParticipants();
-        for(Participant participant : participants){
+        Iterator<Participant> participantIterator = participants.iterator();
+        while (participantIterator.hasNext()){
+            Participant participant = participantIterator.next();
             if (!members.contains(participant.getMember())){
                 participant.delete();
+                participantIterator.remove();
+            } else {
+                members.remove(participant.getMember());
             }
         }
         entity.update();
