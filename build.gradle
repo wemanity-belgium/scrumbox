@@ -13,5 +13,6 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url "http://files.couchbase.com/maven2/"}
+        maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
     }
 }
