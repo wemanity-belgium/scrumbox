@@ -160,6 +160,7 @@ public abstract class AbstractSwipeEntityAdapter<T extends Entity> extends BaseS
      *
      * @param items The items to add at the end of the array.
      */
+    @SuppressWarnings("unchecked")
     public void addAll(T ... items) {
         synchronized (mLock) {
             if (mOriginalValues != null) {
@@ -287,6 +288,7 @@ public abstract class AbstractSwipeEntityAdapter<T extends Entity> extends BaseS
 
 
     @Override
+    @SuppressWarnings("unchecked")
     public void onClick(View v) {
         ActionViewId action = findActionView(v.getId());
         if (onEntityChangeListener != null && action != null){

@@ -5,25 +5,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
-import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
-import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
-import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
-import com.wemanity.scrumbox.android.db.entity.Daily;
 import com.wemanity.scrumbox.android.db.entity.Entity;
-import com.wemanity.scrumbox.android.db.entity.Member;
-import com.wemanity.scrumbox.android.db.entity.Participant;
-import com.wemanity.scrumbox.android.gui.base.adapter.select.EntitySelectionAdapter;
-import com.wemanity.scrumbox.android.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import roboguice.fragment.provided.RoboDialogFragment;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
@@ -49,6 +33,7 @@ public abstract class AbstractEntityEditDialog<T extends Entity> extends RoboDia
     private T entity;
 
     @Override
+    @SuppressWarnings("unchecked")
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();

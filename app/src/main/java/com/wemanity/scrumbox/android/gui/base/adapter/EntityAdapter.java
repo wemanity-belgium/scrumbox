@@ -9,9 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Checkable;
 import android.widget.Filter;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-
 import com.wemanity.scrumbox.android.db.entity.Entity;
 
 import java.util.ArrayList;
@@ -20,7 +18,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
 
@@ -153,6 +150,7 @@ public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
      *
      * @param items The items to add at the end of the array.
      */
+    @SuppressWarnings("unchecked")
     public void addAll(T ... items) {
         synchronized (mLock) {
             if (mOriginalValues != null) {
@@ -516,11 +514,10 @@ public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
                         newValues.add(value);
                     } else {
                         final String[] words = valueText.split(" ");
-                        final int wordCount = words.length;
 
                         // Start at index 0, in case valueText starts with space(s)
-                        for (int k = 0; k < wordCount; k++) {
-                            if (words[k].startsWith(prefixString)) {
+                        for (String word : words) {
+                            if (word.startsWith(prefixString)) {
                                 newValues.add(value);
                                 break;
                             }
@@ -536,6 +533,7 @@ public abstract class EntityAdapter<T extends Entity> extends BaseAdapter {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         protected void publishResults(CharSequence constraint, FilterResults results) {
             //noinspection unchecked
             mObjects = (List<T>) results.values;

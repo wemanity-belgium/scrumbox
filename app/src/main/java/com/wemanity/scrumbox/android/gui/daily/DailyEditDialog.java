@@ -4,27 +4,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-
 import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
-import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
 import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
 import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
+import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
 import com.wemanity.scrumbox.android.db.entity.Daily;
 import com.wemanity.scrumbox.android.db.entity.Member;
 import com.wemanity.scrumbox.android.db.entity.Participant;
 import com.wemanity.scrumbox.android.gui.base.AbstractEntityEditDialog;
 import com.wemanity.scrumbox.android.gui.base.adapter.select.EntitySelectionAdapter;
 import com.wemanity.scrumbox.android.util.StringUtils;
+import roboguice.inject.InjectResource;
+import roboguice.inject.InjectView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import roboguice.inject.InjectResource;
-import roboguice.inject.InjectView;
 
 public class DailyEditDialog extends AbstractEntityEditDialog<Daily>{
     @Inject
@@ -53,8 +51,7 @@ public class DailyEditDialog extends AbstractEntityEditDialog<Daily>{
 
 
     public static DailyEditDialog newInstance(){
-        DailyEditDialog frag = new DailyEditDialog();
-        return frag;
+        return new DailyEditDialog();
     }
 
     public static DailyEditDialog newInstance(Daily daily){
@@ -82,6 +79,7 @@ public class DailyEditDialog extends AbstractEntityEditDialog<Daily>{
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void bindEntity(View view, Bundle savedInstanceState, Daily entity) {
         titleEditText.setText(entity.getTitle());
         durationEditText.setText(String.valueOf(entity.getDurationbyparticipant()));
@@ -102,9 +100,10 @@ public class DailyEditDialog extends AbstractEntityEditDialog<Daily>{
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected Daily insert(){
         Daily daily = new Daily();
-        daily.setDurationbyparticipant(new Integer(StringUtils.clear(durationEditText)));
+        daily.setDurationbyparticipant(Integer.valueOf(StringUtils.clear(durationEditText)));
         daily.setTitle(titleEditText.getText().toString());
         dailyDao.insert(daily);
         Set<Member> members = ((EntitySelectionAdapter)dailyparticipantListView.getAdapter()).getSelectedEntities();
@@ -118,8 +117,9 @@ public class DailyEditDialog extends AbstractEntityEditDialog<Daily>{
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void update(Daily entity){
-        entity.setDurationbyparticipant(new Integer(StringUtils.clear(durationEditText)));
+        entity.setDurationbyparticipant(Integer.valueOf(StringUtils.clear(durationEditText)));
         entity.setTitle(titleEditText.getText().toString());
         Set<Member> members = new HashSet(((EntitySelectionAdapter)dailyparticipantListView.getAdapter()).getSelectedEntities());
         List<Participant> participants = entity.getParticipants();

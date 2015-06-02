@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
-
 import com.wemanity.scrumbox.android.R;
 
 import java.io.ByteArrayInputStream;

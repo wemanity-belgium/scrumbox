@@ -1,16 +1,10 @@
 package com.wemanity.scrumbox.android.gui.member;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
@@ -18,12 +12,6 @@ import com.wemanity.scrumbox.android.db.entity.Member;
 import com.wemanity.scrumbox.android.gui.base.AbstractEntityEditDialog;
 import com.wemanity.scrumbox.android.gui.base.ImageReplacerView;
 import com.wemanity.scrumbox.android.util.StringUtils;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import roboguice.inject.InjectView;
 
 public class MemberEditDialog extends AbstractEntityEditDialog<Member> {

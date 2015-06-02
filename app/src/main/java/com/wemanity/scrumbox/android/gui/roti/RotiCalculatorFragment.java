@@ -9,11 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.gui.RootFragment;
-import com.wemanity.scrumbox.android.gui.roti.RotiScoreView.RotiScore;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
+import com.wemanity.scrumbox.android.gui.roti.RotiScoreView.RotiScore;
+import roboguice.inject.InjectResource;
+import roboguice.inject.InjectView;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -21,9 +22,6 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
-
-import roboguice.inject.InjectResource;
-import roboguice.inject.InjectView;
 
 public class RotiCalculatorFragment extends BaseFragment implements RotiScoreView.OnScoreClickListener{
 
@@ -70,9 +68,10 @@ public class RotiCalculatorFragment extends BaseFragment implements RotiScoreVie
     private RotiScoreView five;
 
     @Override
+    @SuppressWarnings("unchecked")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        stackTrace = savedInstanceState != null ? (Stack)savedInstanceState.getSerializable("stackTrace") : new Stack<RotiScore>();
+        stackTrace = savedInstanceState != null ? (Stack<RotiScore>)savedInstanceState.getSerializable("stackTrace") : new Stack<RotiScore>();
     }
 
     @Nullable
@@ -163,7 +162,7 @@ public class RotiCalculatorFragment extends BaseFragment implements RotiScoreVie
         Map<RotiScore, Integer> scoreMap = new HashMap<>();
         for (RotiScore rotiScore : stackTrace){
             Integer count = scoreMap.get(rotiScore);
-            count = new Integer(count == null ? 1 : count+1);
+            count = count == null ? 1 : count + 1;
             scoreMap.put(rotiScore, count);
         }
         for (RotiScore rotiScore : scoreMap.keySet()){

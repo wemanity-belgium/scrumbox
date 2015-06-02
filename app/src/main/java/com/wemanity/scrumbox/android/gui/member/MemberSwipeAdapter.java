@@ -3,17 +3,13 @@ package com.wemanity.scrumbox.android.gui.member;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
-
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.entity.Member;
 import com.wemanity.scrumbox.android.gui.base.EntityAction;
 import com.wemanity.scrumbox.android.gui.base.adapter.AbstractSwipeEntityAdapter;
 import com.wemanity.scrumbox.android.gui.base.adapter.ActionViewId;
 
-import org.apache.commons.collections.CollectionUtils;
-
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class MemberSwipeAdapter extends AbstractSwipeEntityAdapter<Member> {
