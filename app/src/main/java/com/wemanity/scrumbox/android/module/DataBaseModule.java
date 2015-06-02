@@ -16,15 +16,12 @@ import com.wemanity.scrumbox.android.db.dao.impl.ParticipationDao;
 
 public class DataBaseModule extends AbstractModule {
 
-    private Application application;
-
     private DaoMaster daoMaster;
 
     private DaoSession daoSession;
 
     public DataBaseModule(Application application){
-        this.application = application;
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this.application, "scrumbox-db", null);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(application, "scrumbox-db", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();

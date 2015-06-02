@@ -9,55 +9,40 @@ import java.util.List;
 
 public class DailyInProgress {
     private Daily daily;
-    private List<Participant> participants;
-    private List<Participation> participations;
+    private List<Participant> participants = new ArrayList<>();
+    private List<Participation> participations = new ArrayList<>();
 
     private DailyInProgress(Builder builder) {
-        setDaily(builder.daily);
-        setParticipants(builder.participants);
+        participants = builder.participants;
+        daily = builder.daily;
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
     }
 
     public Daily getDaily() {
         return daily;
     }
 
-    public void setDaily(Daily daily) {
-        this.daily = daily;
-    }
-
     public List<Participant> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<Participant> participants) {
-        this.participants = participants;
-    }
-
     public void addParticipant(Participant participant) {
-        if (participants == null){
-            participants = new ArrayList<>();
-        }
         this.participants.add(participant);
     }
 
-    public void addParticipion(Participant participant, long time) {
-        if (participations == null){
-            participations = new ArrayList<>();
-        }
+    public void addParticipation(Participant participant, long time) {
         Participation participation = new Participation();
         participation.setParticipant(participant);
         participation.setTime(time);
         this.participations.add(participation);
-        //participants.remove(participation.get)
-    }
-
-    public static Builder create(){
-        return new Builder();
     }
 
     public static final class Builder {
         private Daily daily;
-        private List<Participant> participants;
+        private List<Participant> participants = new ArrayList<>();
 
         public Builder() {
         }
@@ -73,9 +58,6 @@ public class DailyInProgress {
         }
 
         public Builder addParticipant(Participant participant) {
-            if (participants == null){
-                participants = new ArrayList<>();
-            }
             this.participants.add(participant);
             return this;
         }

@@ -1,4 +1,4 @@
-package com.wemanity.scrumbox.android;
+package com.wemanity.scrumbox.android.time;
 
 public enum TriggerMethod {
     MANUAL(0),

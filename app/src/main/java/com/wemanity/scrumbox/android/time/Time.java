@@ -1,7 +1,5 @@
 package com.wemanity.scrumbox.android.time;
 
-import com.wemanity.scrumbox.android.Sign;
-
 public class Time {
     private Sign sign;
     private long totalMillis;
@@ -9,44 +7,24 @@ public class Time {
     private long seconde;
     private long millis;
 
-    public Time(){
-
-    }
-
     private Time(Builder builder) {
-        setSign(builder.sign);
-        setTotalMillis(builder.totalMillis);
-        setMinute(builder.minute);
-        setSeconde(builder.seconde);
-        setMillis(builder.millis);
+        sign = builder.sign;
+        totalMillis = builder.totalMillis;
+        minute = builder.minute;
+        seconde = builder.seconde;
+        millis = builder.millis;
     }
 
-    public void setSign(Sign sign) {
-        this.sign = sign;
-    }
-
-    public void setTotalMillis(long totalMillis) {
-        this.totalMillis = totalMillis;
-    }
-
-    public void setMinute(long minute) {
-        this.minute = minute;
-    }
-
-    public void setSeconde(long seconde) {
-        this.seconde = seconde;
-    }
-
-    public void setMillis(long millis) {
-        this.millis = millis;
-    }
-
-    public long getTotalMillis() {
-        return totalMillis;
+    public static Builder newBuilder() {
+        return new Builder();
     }
 
     public Sign getSign() {
         return sign;
+    }
+
+    public long getTotalMillis() {
+        return totalMillis;
     }
 
     public long getMinute() {
@@ -68,7 +46,7 @@ public class Time {
         private long seconde;
         private long millis;
 
-        public Builder() {
+        private Builder() {
         }
 
         public Builder sign(Sign sign) {

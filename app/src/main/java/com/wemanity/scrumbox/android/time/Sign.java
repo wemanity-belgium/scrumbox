@@ -1,4 +1,4 @@
-package com.wemanity.scrumbox.android;
+package com.wemanity.scrumbox.android.time;
 
 public enum Sign {
     NEGATIVE("-"),
@@ -14,5 +14,9 @@ public enum Sign {
     @Override
     public String toString(){
         return mSymbole;
+    }
+
+    public static Sign getSign(long numericValue){
+        return numericValue > 0 ? Sign.POSITIVE : Sign.NEGATIVE;
     }
 }

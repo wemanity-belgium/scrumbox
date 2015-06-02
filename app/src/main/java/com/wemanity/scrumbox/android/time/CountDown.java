@@ -53,6 +53,7 @@ public class CountDown {
     /**
      * The interval in millis that the user receives callbacks
      */
+    private static final int MSG = 1000;
     private final long countdownInterval;
 
     private long startTime;
@@ -62,9 +63,7 @@ public class CountDown {
      * boolean representing if the timer was cancelled
      */
     private boolean stop = false;
-
     private boolean start = false;
-
     private boolean isPositive = true;
 
     /**
@@ -72,9 +71,7 @@ public class CountDown {
      *   to {@link #start()}
      */
     public CountDown(long millisInFuture) {
-        this.millisInFuture = millisInFuture;
-        countdownInterval = 100;
-        start = false;
+        this(millisInFuture,100);
     }
 
     /**
@@ -118,7 +115,6 @@ public class CountDown {
         return this;
     }
 
-    private static final int MSG = 1000;
 
     public void setCountDownEventListener(CountDownEventListener countDownEventListener) {
         if (countDownEventListener == null){return;}
