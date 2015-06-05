@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:columnCount="2"
+    android:rowCount="7"
+    android:useDefaultMargins="false">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/nickname"
+        android:id="@+id/newMembertextView"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_marginLeft="20dp" />
+
+    <EditText
+        android:layout_width="185dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/memberNicknameEditText"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:maxLines="1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/avatar"
+        android:id="@+id/memberAvatarTextView"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp" />
+    <view
+        class="com.wemanity.scrumbox.android.gui.base.ImageReplacerView"
+        android:id="@+id/memberCameraView"
+        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"/>
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_row="4"
+        android:layout_column="0"
+        android:background="@drawable/divider"
+        android:layout_gravity="center_horizontal"
+        android:layout_columnSpan="2" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_row="6"
+        android:layout_column="0"
+        android:layout_columnSpan="2">
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/negativeButton"
+            android:text="@string/action_cancel"
+            android:textColor="@color/blue"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/positiveButton"
+            android:text="@string/action_add"
+            android:textColor="@color/blue"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+
+</GridLayout>

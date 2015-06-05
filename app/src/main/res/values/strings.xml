@@ -2,7 +2,24 @@
 <resources>
 
     <string name="app_name">ScrumBox</string>
-    <string name="action_settings">Settings</string>
-    <string name="initial_time">+ 00:00:000</string>
-
+    <string name="recent_activity">Recent activity</string>
+    <string name="new_daily">Add a daily metting</string>
+    <string name="new_member">Add a member</string>
+    <string name="edit_member">Edit %s\'s profile</string>
+    <string name="nickname">Nickname : </string>
+    <string name="avatar">Avatar :</string>
+    <string name="nickname_empty">Nickname can\'t be empty</string>
+    <string name="roti_current_score">Score : </string>
+    <string name="roti_number_participants">Participants : </string>
+    <string name="roti_count">Count : %s</string>
+    <string name="daily_person_duration">Duration/pers</string>
+    <string name="seconds">seconds</string>
+    <string name="daily_participants">Participants :</string>
+    <string name="daily_title">Title : </string>
+    <string-array name="list_module">
+        <item>Daily</item>
+        <item>Member</item>
+        <item>Scrum Poker</item>
+        <item>Roti</item>
+    </string-array>
 </resources>
