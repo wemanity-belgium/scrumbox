@@ -30,7 +30,7 @@ public class MemberSwipeAdapter extends AbstractSwipeEntityAdapter<Member> {
 
     @Override
     protected List<ActionViewId> getActionBottomViewIds() {
-        return Arrays.asList(new ActionViewId(R.id.editImageView, EntityAction.UPDATE), new ActionViewId(R.id.deleteImageView, EntityAction.DELETE));
+        return Arrays.asList(new ActionViewId(R.id.editImageView, EntityAction.REPLACE), new ActionViewId(R.id.deleteImageView, EntityAction.DELETE));
     }
 
     @Override

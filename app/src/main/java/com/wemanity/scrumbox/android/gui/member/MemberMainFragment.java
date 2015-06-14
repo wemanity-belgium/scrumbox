@@ -4,20 +4,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.daimajia.swipe.SwipeLayout;
-import com.daimajia.swipe.util.Attributes;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
 import com.wemanity.scrumbox.android.db.entity.Member;
 import com.wemanity.scrumbox.android.gui.RootFragment;
+import com.wemanity.scrumbox.android.gui.SubMenuOnScrollListener;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 import com.wemanity.scrumbox.android.gui.base.EntityAction;
 import com.wemanity.scrumbox.android.gui.base.OnEntityChangeListener;
+import com.wemanity.scrumbox.android.gui.base.adapter.SubMenuAdapter;
 
 import java.util.List;
 
@@ -36,26 +35,11 @@ public class MemberMainFragment extends BaseFragment implements View.OnClickList
     @InjectView(R.id.addMemberFAB)
     private FloatingActionButton memberFAB;
 
-    private MemberSwipeAdapter memberAdapter;
+    private SubMenuAdapter<Member> entityAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        memberAdapter = new MemberSwipeAdapter(getActivity());
-        memberAdapter.setOnEntityChangeListener(new OnEntityChangeListener<Member>() {
-            @Override
-            public void onEntityChange(EntityAction action, Member entity) {
-                switch (action){
-                    case UPDATE:
-                        showEditDialog(entity);
-                        break;
-                    case DELETE:
-                        memberAdapter.remove(entity);
-                        memberDao.delete(entity);
-                        break;
-                }
-            }
-        });
     }
 
     @Override
@@ -68,24 +52,33 @@ public class MemberMainFragment extends BaseFragment implements View.OnClickList
         super.onViewCreated(view, savedInstanceState);
         memberFAB.setOnClickListener(this);
         List<Member> members = memberDao.queryBuilder().list();
-
-        memberAdapter.setMode(Attributes.Mode.Single);
-        memberAdapter.clear();
-        memberListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((SwipeLayout)(memberListView.getChildAt(position - memberListView.getFirstVisiblePosition()))).open(true);
-            }
-        });
-        memberListView.setAdapter(memberAdapter);
-        memberAdapter.addAll(members);
+        members.add(new Member("Member 1"));
+        members.add(new Member("Member 2"));
+        members.add(new Member("Member 3"));
+        members.add(new Member("Member 4"));
+        members.add(new Member("Member 5"));
+        members.add(new Member("Member 6"));
+        members.add(new Member("Member 7"));
+        entityAdapter = SubMenuAdapter.<Member>newBuilder()
+                .drawables(new int[]{R.drawable.member_delete,
+                        R.drawable.member_edit})
+                .entityActions(new EntityAction[]{EntityAction.DELETE, EntityAction.SHOW_EDIT_DIALOG})
+                .activity(getActivity())
+                .layoutId(R.layout.member_listview_row_layout)
+                .entities(members)
+                .viewIds(new int[]{R.id.memberNickNameTextView})
+                .properties(new String[]{"nickname"})
+                .changeListener(this)
+                .build();
+        memberListView.setAdapter(entityAdapter);
+        memberListView.setOnScrollListener(new SubMenuOnScrollListener(entityAdapter));
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.addMemberFAB:
-                showEditDialog(null);
+                showMemberEditDialog();
                 break;
         }
     }
@@ -93,20 +86,31 @@ public class MemberMainFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onEntityChange(EntityAction action, Member entity) {
         switch (action){
-            case INSERT:
-                memberAdapter.add(entity);
+            case CREATE:
+                entityAdapter.add(entity);
                 break;
-            case UPDATE:
-                memberAdapter.switchObjectById(entity);
+            case SHOW_CREATION_DIALOG:
+            case SHOW_EDIT_DIALOG:
+                showMemberEditDialog(entity);
                 break;
+            case DELETE:
+                entityAdapter.remove(entity);
+                memberDao.delete(entity);
+                break;
+            default:
+                throw new RuntimeException("Action not implemented yet : "+ action);
         }
     }
 
-    private void showEditDialog(Member member){
+    private void showMemberEditDialog(Member member){
         MemberEditDialog memberDialog = MemberEditDialog.newInstance(member);
         memberDialog.setShowsDialog(false);
         memberDialog.setOnEntityChangeListener(this);
         memberDialog.show(getActivity().getFragmentManager(),"editMemberDialog");
+    }
+
+    private void showMemberEditDialog(){
+        showMemberEditDialog(null);
     }
 
     @Override

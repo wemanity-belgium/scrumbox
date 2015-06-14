@@ -27,7 +27,7 @@ public class DaoMaster extends AbstractDaoMaster {
         MemberDao.createTable(db, ifNotExists);
         ParticipantDao.createTable(db, ifNotExists);
         DailyOccurrenceDao.createTable(db, ifNotExists);
-        ParticipationDao.createTable(db, ifNotExists);
+        ParticipationDao.createTable(db,  ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */

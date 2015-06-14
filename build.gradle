@@ -14,5 +14,6 @@ allprojects {
         mavenCentral()
         maven { url "http://files.couchbase.com/maven2/"}
         maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
+        maven { url "https://jitpack.io" }
     }
 }

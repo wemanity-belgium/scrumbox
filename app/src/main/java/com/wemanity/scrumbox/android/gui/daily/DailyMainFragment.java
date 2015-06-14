@@ -4,28 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.daimajia.swipe.SwipeLayout;
-import com.daimajia.swipe.util.Attributes;
+
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
 import com.wemanity.scrumbox.android.db.entity.Daily;
-import com.wemanity.scrumbox.android.db.entity.Member;
-import com.wemanity.scrumbox.android.gui.FragmentHelper;
 import com.wemanity.scrumbox.android.gui.RootFragment;
+import com.wemanity.scrumbox.android.gui.SubMenuOnScrollListener;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 import com.wemanity.scrumbox.android.gui.base.EntityAction;
 import com.wemanity.scrumbox.android.gui.base.OnEntityChangeListener;
-import com.wemanity.scrumbox.android.gui.member.MemberEditDialog;
-import com.wemanity.scrumbox.android.gui.member.MemberMainFragment;
-import com.wemanity.scrumbox.android.gui.member.MemberSwipeAdapter;
+import com.wemanity.scrumbox.android.gui.base.adapter.SubMenuAdapter;
 
-import java.util.List;
+import java.util.Collection;
 
 import roboguice.inject.InjectView;
 
@@ -35,37 +30,22 @@ public class DailyMainFragment extends BaseFragment implements View.OnClickListe
     @Inject
     private DailyDao dailyDao;
 
-    @InjectView(R.id.dailyListView) private ListView dailyListView;
+    @InjectView(R.id.dailyListView)
+    private ListView dailyListView;
 
-    @InjectView(R.id.addDailyFAB) private FloatingActionButton dailyFAB;
+    @InjectView(R.id.addDailyFAB)
+    private FloatingActionButton dailyFAB;
 
-    @InjectView(R.id.dailyMainLayout) private RelativeLayout dailyLayout;
+    @InjectView(R.id.dailyMainLayout)
+    private RelativeLayout dailyLayout;
 
-    private DailySwipeAdapter dailyAdapter;
+    private SubMenuAdapter<Daily> entityAdapter;
+
+    //private DailySwipeAdapter dailyAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dailyAdapter = new DailySwipeAdapter(getActivity());
-        dailyAdapter.setOnEntityChangeListener(new OnEntityChangeListener<Daily>() {
-            @Override
-            public void onEntityChange(EntityAction action, Daily entity) {
-                switch (action){
-                    case UPDATE:
-                        showEditDialog(entity);
-                        break;
-                    case DELETE:
-                        dailyAdapter.remove(entity);
-                        dailyDao.delete(entity);
-                        break;
-                    case START_DAILY:
-                        Bundle args = new Bundle();
-                        args.putSerializable("daily", entity);
-                        FragmentHelper.switchFragment(getActivity().getFragmentManager(), DailyProgressFragment.class, R.id.fragment_frame_layout, args);
-                        break;
-                }
-            }
-        });
     }
 
     @Override
@@ -78,30 +58,52 @@ public class DailyMainFragment extends BaseFragment implements View.OnClickListe
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         dailyFAB.setOnClickListener(this);
-        List<Daily> dailies = dailyDao.queryBuilder().list();
 
-        dailyAdapter.setMode(Attributes.Mode.Single);
-        dailyAdapter.clear();
-        dailyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((SwipeLayout)(dailyListView.getChildAt(position - dailyListView.getFirstVisiblePosition()))).open(true);
-            }
-        });
-        dailyListView.setAdapter(dailyAdapter);
-        dailyAdapter.addAll(dailies);
+        Collection<Daily> dailies = dailyDao.queryBuilder().list();
+        dailies.add(Daily.newInstance().title("Daily 1").build());
+        dailies.add(Daily.newInstance().title("Daily 2").build());
+        dailies.add(Daily.newInstance().title("Daily 3").build());
+        dailies.add(Daily.newInstance().title("Daily 4").build());
+        dailies.add(Daily.newInstance().title("Daily 5").build());
+        dailies.add(Daily.newInstance().title("Daily 6").build());
+        dailies.add(Daily.newInstance().title("Daily 7").build());
+        dailies.add(Daily.newInstance().title("Daily 8").build());
+        dailies.add(Daily.newInstance().title("Daily 9").build());
+        dailies.add(Daily.newInstance().title("Daily 10").build());
+        dailies.add(Daily.newInstance().title("Daily 11").build());
+        dailies.add(Daily.newInstance().title("Daily 12").build());
+
+        entityAdapter = SubMenuAdapter.<Daily>newBuilder()
+                .drawables(new int[]{R.drawable.daily_start,
+                        R.drawable.daily_chart,
+                        R.drawable.daily_delete,
+                        R.drawable.daily_edit})
+                .entityActions(new EntityAction[]{EntityAction.START_DAILY, EntityAction.SHOW_CHART, EntityAction.DELETE, EntityAction.SHOW_EDIT_DIALOG})
+                .activity(getActivity())
+                .layoutId(R.layout.daily_listview_row_layout)
+                .entities(dailies)
+                .viewIds(new int[]{R.id.dailyListviewTitle})
+                .properties(new String[]{"title"})
+                .changeListener(this)
+                .build();
+        dailyListView.setAdapter(entityAdapter);
+        dailyListView.setOnScrollListener(new SubMenuOnScrollListener(entityAdapter));
     }
 
     @Override
     public void onClick(View v) {
-       showEditDialog(null);
+       showDailyEditDialog();
     }
 
-    private void showEditDialog(Daily daily){
+    private void showDailyEditDialog(Daily daily){
         DailyEditDialog dailyDialog = DailyEditDialog.newInstance(daily);
         dailyDialog.setShowsDialog(false);
         dailyDialog.setOnEntityChangeListener(this);
         dailyDialog.show(getActivity().getFragmentManager(), "editDailyDialog");
+    }
+
+    private void showDailyEditDialog(){
+        showDailyEditDialog(null);
     }
 
     @Override
@@ -112,12 +114,21 @@ public class DailyMainFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onEntityChange(EntityAction action, Daily entity) {
         switch (action){
-            case INSERT:
-                dailyAdapter.add(entity);
+            case CREATE:
+                entityAdapter.add(entity);
                 break;
-            case UPDATE:
-                dailyAdapter.switchObjectById(entity);
+            case SHOW_CREATION_DIALOG:
+                showDailyEditDialog(null);
                 break;
+            case SHOW_EDIT_DIALOG:
+                showDailyEditDialog(entity);
+                break;
+            case DELETE:
+                entityAdapter.remove(entity);
+                dailyDao.delete(entity);
+                break;
+            default:
+                throw new RuntimeException("Action not implemented yet : "+ action);
         }
     }
 

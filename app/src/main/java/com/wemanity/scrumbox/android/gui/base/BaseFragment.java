@@ -1,6 +1,6 @@
 package com.wemanity.scrumbox.android.gui.base;
 
-import roboguice.fragment.provided.RoboFragment;
+import roboguice.fragment.RoboFragment;
 
 public abstract class BaseFragment extends RoboFragment {
 

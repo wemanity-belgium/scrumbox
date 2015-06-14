@@ -2,6 +2,7 @@ package com.wemanity.scrumbox.android.gui;
 
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,9 @@ import java.util.Map;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
-public class RootFragment extends BaseFragment implements AdapterView.OnItemClickListener {
+public class RootFragment extends BaseFragment{
     public static final String TAG = "RootFragment";
-    @InjectView(R.id.moduleListView) private ListView moduleListView;
-    @InjectView(R.id.recentActivityListView) private ListView recentActivitiesListView;
-    @InjectResource(R.array.list_module) private String[] listModule;
+    @InjectView(R.id.mainPager) private ViewPager mainViewPager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,9 +43,6 @@ public class RootFragment extends BaseFragment implements AdapterView.OnItemClic
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        moduleListView.setAdapter(createModuleViewAdapter());
-        moduleListView.setOnItemClickListener(this);
-        recentActivitiesListView.setAdapter(createRecentActivitiesAdapterDumpData());
     }
 
     private SimpleAdapter createModuleViewAdapter(){
@@ -75,7 +71,7 @@ public class RootFragment extends BaseFragment implements AdapterView.OnItemClic
         return new SimpleAdapter(this.getActivity(),fillMaps, R.layout.module_listview_layout, from,to);
     }
 
-    private SimpleAdapter createRecentActivitiesAdapterDumpData(){
+    /*private SimpleAdapter createRecentActivitiesAdapterDumpData(){
         String[] from = {"recentActivity"};
         int[] to = {R.id.recentActivityTextView};
         List<Map<String, String>> fillMaps = new ArrayList<Map<String, String>>();
@@ -85,22 +81,22 @@ public class RootFragment extends BaseFragment implements AdapterView.OnItemClic
             fillMaps.add(moduleData);
         }
         return new SimpleAdapter(this.getActivity(),fillMaps, R.layout.recent_activities_listview_layout, from,to);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)   {
         switch(listModule[position]){
             case "Daily":
-                FragmentHelper.switchFragment(getActivity().getFragmentManager(), DailyMainFragment.class, R.id.fragment_frame_layout);
+                FragmentHelper.switchFragment(getActivity().getSupportFragmentManager(), DailyMainFragment.class, R.id.fragment_frame_layout);
                 break;
             case "Member":
-                FragmentHelper.switchFragment(getActivity().getFragmentManager(), MemberMainFragment.class, R.id.fragment_frame_layout);
+                FragmentHelper.switchFragment(getActivity().getSupportFragmentManager(), MemberMainFragment.class, R.id.fragment_frame_layout);
                 break;
             case "Roti":
-                FragmentHelper.switchFragment(getActivity().getFragmentManager(), RotiCalculatorFragment.class, R.id.fragment_frame_layout);
+                FragmentHelper.switchFragment(getActivity().getSupportFragmentManager(), RotiCalculatorFragment.class, R.id.fragment_frame_layout);
                 break;
         }
-    }
+    }*/
 
     @Override
     public Class<? extends BaseFragment> getPreviusFragment() {

@@ -24,6 +24,10 @@ public class Member implements Entity {
         this.nickname = nickname;
     }
 
+    public Member(String nickname) {
+        this.nickname = nickname;
+    }
+
     public Long getId() {
         return id;
     }

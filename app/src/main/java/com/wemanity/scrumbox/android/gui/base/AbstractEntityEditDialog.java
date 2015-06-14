@@ -97,7 +97,7 @@ public abstract class AbstractEntityEditDialog<T extends Entity> extends RoboDia
 
     private void notifyEntityChangeListener(){
         if (onEntityChangeListener != null){
-            onEntityChangeListener.onEntityChange(insertMode? EntityAction.INSERT : EntityAction.UPDATE, entity);
+            onEntityChangeListener.onEntityChange(insertMode? EntityAction.CREATE : EntityAction.REPLACE, entity);
         }
     }
 

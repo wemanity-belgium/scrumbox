@@ -5,6 +5,8 @@ import com.wemanity.scrumbox.android.db.dao.DaoSession;
 import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
 import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.greenrobot.dao.DaoException;
@@ -19,7 +21,7 @@ public class Daily implements Entity{
     private Integer durationbyparticipant;
     private Integer switchmethod;
     private Boolean random;
-    private java.util.Date time;
+    private Date time;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -36,13 +38,22 @@ public class Daily implements Entity{
         this.id = id;
     }
 
-    public Daily(Long id, String title, Integer durationbyparticipant, Integer switchmethod, Boolean random, java.util.Date time) {
+    public Daily(Long id, String title, Integer durationbyparticipant, Integer switchmethod, Boolean random, Date time) {
         this.id = id;
         this.title = title;
         this.durationbyparticipant = durationbyparticipant;
         this.switchmethod = switchmethod;
         this.random = random;
         this.time = time;
+    }
+
+    private Daily(Builder builder) {
+        setTitle(builder.title);
+        setDurationbyparticipant(builder.durationbyparticipant);
+        setSwitchmethod(builder.switchmethod);
+        setRandom(builder.random);
+        setTime(builder.time);
+        participants = builder.participants;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -91,11 +102,11 @@ public class Daily implements Entity{
         this.random = random;
     }
 
-    public java.util.Date getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(java.util.Date time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
@@ -123,7 +134,12 @@ public class Daily implements Entity{
 
     @Override
     public String getProperty(String property) {
-        return null;
+        switch(property){
+            case "title" :
+                return title;
+            default:
+                return  null;
+        }
     }
 
     /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */
@@ -150,4 +166,55 @@ public class Daily implements Entity{
         myDao.refresh(this);
     }
 
+    public static Builder newInstance(){
+        return new Builder();
+    }
+
+    public static final class Builder {
+        private String title;
+        private Integer durationbyparticipant;
+        private Integer switchmethod;
+        private Boolean random;
+        private Date time;
+        private List<Participant> participants;
+
+        public Builder() {
+            participants = new ArrayList<>();
+        }
+
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder durationbyparticipant(Integer durationbyparticipant) {
+            this.durationbyparticipant = durationbyparticipant;
+            return this;
+        }
+
+        public Builder switchmethod(Integer switchmethod) {
+            this.switchmethod = switchmethod;
+            return this;
+        }
+
+        public Builder random(Boolean random) {
+            this.random = random;
+            return this;
+        }
+
+        public Builder time(Date time) {
+            this.time = time;
+            return this;
+        }
+
+        public Builder participants(List<Participant> participants) {
+            this.participants = new ArrayList<>(participants);
+            return this;
+        }
+
+        public Daily build() {
+            return new Daily(this);
+        }
+    }
 }

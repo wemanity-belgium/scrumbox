@@ -16,6 +16,10 @@
     <string name="seconds">seconds</string>
     <string name="daily_participants">Participants :</string>
     <string name="daily_title">Title : </string>
+    <string name="module_name_daily">Daily</string>
+    <string name="module_name_member">Member</string>
+    <string name="module_name_scrum_poker">Scrum Poker</string>
+    <string name="module_name_roti">Roti</string>
     <string-array name="list_module">
         <item>Daily</item>
         <item>Member</item>

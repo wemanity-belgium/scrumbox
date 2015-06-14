@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.entity.Daily;
-import com.wemanity.scrumbox.android.db.entity.Member;
 import com.wemanity.scrumbox.android.gui.base.EntityAction;
 import com.wemanity.scrumbox.android.gui.base.adapter.AbstractSwipeEntityAdapter;
 import com.wemanity.scrumbox.android.gui.base.adapter.ActionViewId;
@@ -32,7 +31,7 @@ public class DailySwipeAdapter extends AbstractSwipeEntityAdapter<Daily> {
 
     @Override
     protected List<ActionViewId> getActionBottomViewIds() {
-        return Arrays.asList(new ActionViewId(R.id.editImageView, EntityAction.UPDATE), new ActionViewId(R.id.deleteImageView, EntityAction.DELETE), new ActionViewId(R.id.playImageView, EntityAction.START_DAILY));
+        return Arrays.asList(new ActionViewId(R.id.editImageView, EntityAction.REPLACE), new ActionViewId(R.id.deleteImageView, EntityAction.DELETE), new ActionViewId(R.id.playImageView, EntityAction.START_DAILY));
     }
 
     @Override
