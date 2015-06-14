@@ -14,9 +14,10 @@ import com.wemanity.scrumbox.android.gui.daily.DailyMainFragment;
 import com.wemanity.scrumbox.android.gui.member.MemberMainFragment;
 import com.wemanity.scrumbox.android.gui.roti.RotiCalculatorFragment;
 
-/**
- * Created by brixou on 07/06/15.
- */
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+
 public class RootPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
     private Context context;
@@ -27,16 +28,12 @@ public class RootPagerAdapter extends FragmentPagerAdapter implements PagerSlidi
 
     @Override
     public Fragment getItem(int index) {
-
         switch (index) {
             case 0:
-                // Top Rated fragment activity
                 return new DailyMainFragment();
             case 1:
-                // Games fragment activity
                 return new MemberMainFragment();
             case 2:
-                // Movies fragment activity
                 return new RotiCalculatorFragment();
         }
 

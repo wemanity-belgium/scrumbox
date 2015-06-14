@@ -9,9 +9,13 @@ import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
 import com.wemanity.scrumbox.android.db.entity.Member;
+import com.wemanity.scrumbox.android.gui.RootFragment;
 import com.wemanity.scrumbox.android.gui.base.AbstractEntityEditDialog;
+import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 import com.wemanity.scrumbox.android.gui.base.ImageReplacerView;
 import com.wemanity.scrumbox.android.util.StringUtils;
+
+import de.greenrobot.dao.query.WhereCondition;
 import roboguice.inject.InjectView;
 
 public class MemberEditDialog extends AbstractEntityEditDialog<Member> {
@@ -71,8 +75,15 @@ public class MemberEditDialog extends AbstractEntityEditDialog<Member> {
 
     @Override
     protected boolean valideInput(){
+        String nickName = StringUtils.clear(memberNicknameEdit);
         if (StringUtils.clear(memberNicknameEdit).isEmpty()){
-            memberNicknameEdit.setError(getActivity().getString(R.string.nickname_empty));
+            memberNicknameEdit.setError(getActivity().getString(R.string.error_is_empty));
+            return false;
+        }
+        long count = memberDao.queryBuilder().where(new WhereCondition.PropertyCondition(MemberDao.Properties.Nickname, "= ?", nickName)).count();
+        if (count != 0){
+            memberNicknameEdit.setError(getActivity().getString(R.string.error_nickname_use));
+            memberNicknameEdit.setSelection(0, nickName.length());
             return false;
         }
         return true;
@@ -94,5 +105,10 @@ public class MemberEditDialog extends AbstractEntityEditDialog<Member> {
         memberDao.insert(member);
         imageReplacerView.saveDrawable(String.format("%s/member-avatar/%s.jpg",Environment.getExternalStorageDirectory().getAbsoluteFile(), member.getId()));
         return member;
+    }
+
+    @Override
+    public Class<? extends BaseFragment> getPreviusFragment() {
+        return RootFragment.class;
     }
 }

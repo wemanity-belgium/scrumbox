@@ -11,12 +11,14 @@ import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.dao.impl.MemberDao;
 import com.wemanity.scrumbox.android.db.entity.Member;
+import com.wemanity.scrumbox.android.gui.FragmentHelper;
 import com.wemanity.scrumbox.android.gui.RootFragment;
 import com.wemanity.scrumbox.android.gui.SubMenuOnScrollListener;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 import com.wemanity.scrumbox.android.gui.base.EntityAction;
 import com.wemanity.scrumbox.android.gui.base.OnEntityChangeListener;
 import com.wemanity.scrumbox.android.gui.base.adapter.SubMenuAdapter;
+import com.wemanity.scrumbox.android.gui.daily.DailyEditDialog;
 
 import java.util.List;
 
@@ -52,13 +54,13 @@ public class MemberMainFragment extends BaseFragment implements View.OnClickList
         super.onViewCreated(view, savedInstanceState);
         memberFAB.setOnClickListener(this);
         List<Member> members = memberDao.queryBuilder().list();
-        members.add(new Member("Member 1"));
+        /*members.add(new Member("Member 1"));
         members.add(new Member("Member 2"));
         members.add(new Member("Member 3"));
         members.add(new Member("Member 4"));
         members.add(new Member("Member 5"));
         members.add(new Member("Member 6"));
-        members.add(new Member("Member 7"));
+        members.add(new Member("Member 7"));*/
         entityAdapter = SubMenuAdapter.<Member>newBuilder()
                 .drawables(new int[]{R.drawable.member_delete,
                         R.drawable.member_edit})
@@ -103,10 +105,14 @@ public class MemberMainFragment extends BaseFragment implements View.OnClickList
     }
 
     private void showMemberEditDialog(Member member){
-        MemberEditDialog memberDialog = MemberEditDialog.newInstance(member);
-        memberDialog.setShowsDialog(false);
-        memberDialog.setOnEntityChangeListener(this);
-        memberDialog.show(getActivity().getFragmentManager(),"editMemberDialog");
+        //MemberEditDialog memberDialog = MemberEditDialog.newInstance(member);
+        //memberDialog.setShowsDialog(false);
+        //memberDialog.setOnEntityChangeListener(this);
+        Bundle args = new Bundle();
+        args.putSerializable("entity", member);
+        FragmentHelper.switchFragment(getActivity(), MemberEditDialog.class, R.id.fragmentFrameLayout, args);
+        //getChildFragmentManager().beginTransaction().add(memberDialog, "EditMember").commit();
+        //memberDialog.show(getActivity().getFragmentManager(),"editMemberDialog");
     }
 
     private void showMemberEditDialog(){

@@ -13,6 +13,7 @@ import com.google.inject.Inject;
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.dao.impl.DailyDao;
 import com.wemanity.scrumbox.android.db.entity.Daily;
+import com.wemanity.scrumbox.android.gui.FragmentHelper;
 import com.wemanity.scrumbox.android.gui.RootFragment;
 import com.wemanity.scrumbox.android.gui.SubMenuOnScrollListener;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
@@ -60,7 +61,7 @@ public class DailyMainFragment extends BaseFragment implements View.OnClickListe
         dailyFAB.setOnClickListener(this);
 
         Collection<Daily> dailies = dailyDao.queryBuilder().list();
-        dailies.add(Daily.newInstance().title("Daily 1").build());
+        /*dailies.add(Daily.newInstance().title("Daily 1").build());
         dailies.add(Daily.newInstance().title("Daily 2").build());
         dailies.add(Daily.newInstance().title("Daily 3").build());
         dailies.add(Daily.newInstance().title("Daily 4").build());
@@ -71,7 +72,7 @@ public class DailyMainFragment extends BaseFragment implements View.OnClickListe
         dailies.add(Daily.newInstance().title("Daily 9").build());
         dailies.add(Daily.newInstance().title("Daily 10").build());
         dailies.add(Daily.newInstance().title("Daily 11").build());
-        dailies.add(Daily.newInstance().title("Daily 12").build());
+        dailies.add(Daily.newInstance().title("Daily 12").build());*/
 
         entityAdapter = SubMenuAdapter.<Daily>newBuilder()
                 .drawables(new int[]{R.drawable.daily_start,
@@ -96,10 +97,9 @@ public class DailyMainFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void showDailyEditDialog(Daily daily){
-        DailyEditDialog dailyDialog = DailyEditDialog.newInstance(daily);
-        dailyDialog.setShowsDialog(false);
-        dailyDialog.setOnEntityChangeListener(this);
-        dailyDialog.show(getActivity().getFragmentManager(), "editDailyDialog");
+        Bundle args = new Bundle();
+        args.putSerializable("entity", daily);
+        FragmentHelper.switchFragment(getActivity(), DailyEditDialog.class, R.id.fragmentFrameLayout, args);
     }
 
     private void showDailyEditDialog(){
@@ -123,9 +123,17 @@ public class DailyMainFragment extends BaseFragment implements View.OnClickListe
             case SHOW_EDIT_DIALOG:
                 showDailyEditDialog(entity);
                 break;
+            case START_DAILY:
+                Bundle args = new Bundle();
+                args.putSerializable("daily", entity);
+                FragmentHelper.switchFragment(getActivity(), DailyProgressFragment.class, R.id.fragmentFrameLayout, args);
+                break;
             case DELETE:
                 entityAdapter.remove(entity);
                 dailyDao.delete(entity);
+                break;
+            case REPLACE:
+                //entityAdapter.switchObjectById(entity);
                 break;
             default:
                 throw new RuntimeException("Action not implemented yet : "+ action);

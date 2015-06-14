@@ -8,7 +8,7 @@
     <string name="edit_member">Edit %s\'s profile</string>
     <string name="nickname">Nickname : </string>
     <string name="avatar">Avatar :</string>
-    <string name="nickname_empty">Nickname can\'t be empty</string>
+
     <string name="roti_current_score">Score : </string>
     <string name="roti_number_participants">Participants : </string>
     <string name="roti_count">Count : %s</string>

@@ -205,6 +205,7 @@ public class SubMenuAdapter<E extends Entity> extends EntityAdapter<E> {
 		@Override
 		public boolean onLongClick(View v) {
 			floatingActionMenu.open(true);
+			v.setBackgroundResource(R.color.DodgerBlue);
 			return true;
 		}
 	}

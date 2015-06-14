@@ -1,5 +1,6 @@
 package com.wemanity.scrumbox.android.gui.daily;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -12,13 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.entity.Daily;
 import com.wemanity.scrumbox.android.db.entity.DailyOccurrence;
 import com.wemanity.scrumbox.android.db.entity.Participant;
 import com.wemanity.scrumbox.android.db.entity.Participation;
+import com.wemanity.scrumbox.android.gui.ActiveBackButton;
+import com.wemanity.scrumbox.android.gui.RootFragment;
 import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 import com.wemanity.scrumbox.android.time.CountDown;
 import com.wemanity.scrumbox.android.time.TimeHelper;
@@ -33,13 +39,13 @@ import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
 
-public class DailyProgressFragment extends BaseFragment implements View.OnClickListener, CountDown.CountDownEventListener{
+public class DailyProgressFragment extends BaseFragment implements ActiveBackButton, View.OnClickListener, CountDown.CountDownEventListener{
     @InjectView(R.id.dailyTitleTextView) private TextView dailyTitleTextView;
     @InjectView(R.id.dailyTotalTimeValueTextView) private TextView totalTimeValueTextView;
     @InjectView(R.id.dailyParticipantTimeLeftValueTextView) private TextView participantTimeLeftValueTextView;
     @InjectView(R.id.dailyParticipantTimeLeftitleTextView) private TextView participantTimeLeftTitleTextView;
     @InjectView(R.id.dailyTotalTimeTitleTextView) private TextView dailyTotalTimeTitleTextView;
-    @InjectView(R.id.participantPictureLayout) private View participantPictureLayout;
+    @InjectView(R.id.participantPictureLayout) private ImageSwitcher imageSwitcher;
     @InjectResource(R.drawable.circle_drawable) Drawable roleColor;
     @InjectResource(R.string.daily_total_time) String totalTimeTile;
     @InjectResource(R.string.daily_participant_time_left) String participantTimeLeft;
@@ -79,8 +85,17 @@ public class DailyProgressFragment extends BaseFragment implements View.OnClickL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         dailyTotalTimeTitleTextView.setText(totalTimeTile);
-        participantPictureLayout.setBackground(dedaultProfilAvatar);
-        participantPictureLayout.setOnClickListener(this);
+        imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView myView = new ImageView(getActivity());
+                myView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                myView.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                return myView;
+            }
+        });
+        imageSwitcher.setImageResource(R.drawable.default_profile_avatar);
+        imageSwitcher.setOnClickListener(this);
         initialize();
     }
 
@@ -132,7 +147,7 @@ public class DailyProgressFragment extends BaseFragment implements View.OnClickL
     }
 
     private void terminateDaily(){
-        participantPictureLayout.setOnClickListener(null);
+        imageSwitcher.setOnClickListener(null);
         new AlertDialog.Builder(this.getActivity())
                 .setTitle("Daily terminate!")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -166,6 +181,6 @@ public class DailyProgressFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public Class<? extends BaseFragment> getPreviusFragment() {
-        return DailyMainFragment.class;
+        return RootFragment.class;
     }
 }

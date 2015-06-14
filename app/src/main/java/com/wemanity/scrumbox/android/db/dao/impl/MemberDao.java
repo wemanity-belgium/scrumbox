@@ -106,6 +106,11 @@ public class MemberDao extends AbstractDao<Member, Long> {
         }
     }
 
+    @Override
+    public void delete(Member entity) {
+        super.delete(entity);
+    }
+
     /** @inheritdoc */
     @Override
     protected boolean isEntityUpdateable() {

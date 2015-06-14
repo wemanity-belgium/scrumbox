@@ -12,7 +12,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/dailyTitleTextView"
         android:gravity="center_horizontal"
-        android:textSize="60sp"
+        android:textSize="40sp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
@@ -38,16 +38,14 @@
         android:layout_marginRight="10dp"
         android:textSize="40sp"
         android:lines="1" />
-    <FrameLayout
+    <ImageSwitcher
         android:id="@+id/participantPictureLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_weight="1"
         android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp">
-
-    </FrameLayout>
+        android:layout_marginRight="35dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

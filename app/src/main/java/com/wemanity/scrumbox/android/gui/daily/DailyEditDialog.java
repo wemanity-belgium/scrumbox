@@ -12,9 +12,13 @@ import com.wemanity.scrumbox.android.db.dao.impl.ParticipantDao;
 import com.wemanity.scrumbox.android.db.entity.Daily;
 import com.wemanity.scrumbox.android.db.entity.Member;
 import com.wemanity.scrumbox.android.db.entity.Participant;
+import com.wemanity.scrumbox.android.gui.RootFragment;
+import com.wemanity.scrumbox.android.gui.ViewUtils;
 import com.wemanity.scrumbox.android.gui.base.AbstractEntityEditDialog;
+import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 import com.wemanity.scrumbox.android.gui.base.adapter.select.EntitySelectionAdapter;
 import com.wemanity.scrumbox.android.util.StringUtils;
+
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
@@ -75,7 +79,7 @@ public class DailyEditDialog extends AbstractEntityEditDialog<Daily>{
     @Override
     protected void initializeView(View view, Bundle savedInstanceState) {
         List<Member> members = memberDao.queryBuilder().list();
-        dailyparticipantListView.setAdapter(new EntitySelectionAdapter<>(this.getActivity(),members,R.layout.participant_listview_row_view, new int[]{R.id.memberNickNameTextView}, new String[]{"nickname"}));
+        dailyparticipantListView.setAdapter(new EntitySelectionAdapter<>(this.getActivity(),members,R.layout.member_listview_row_layout, new int[]{R.id.memberNickNameTextView}, new String[]{"nickname"}));
     }
 
     @Override
@@ -94,9 +98,16 @@ public class DailyEditDialog extends AbstractEntityEditDialog<Daily>{
 
     @Override
     protected boolean valideInput(){
-        return !((EntitySelectionAdapter)dailyparticipantListView.getAdapter()).getSelectedEntities().isEmpty() &&
-               !StringUtils.clear(durationEditText).isEmpty() &&
-               !StringUtils.clear(titleEditText).isEmpty();
+        if(!ViewUtils.checkEditText(titleEditText,getString(R.string.error_is_empty))){
+            return false;
+        }
+        if(!ViewUtils.checkEditText(durationEditText,getString(R.string.error_is_empty))){
+            return false;
+        }
+        if (((EntitySelectionAdapter)dailyparticipantListView.getAdapter()).getSelectedEntities().isEmpty()){
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -141,5 +152,11 @@ public class DailyEditDialog extends AbstractEntityEditDialog<Daily>{
             participantDao.insert(participant);
         }
         entity.resetParticipants();
+
+    }
+
+    @Override
+    public Class<? extends BaseFragment> getPreviusFragment() {
+        return RootFragment.class;
     }
 }

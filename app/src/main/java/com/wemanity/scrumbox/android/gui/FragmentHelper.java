@@ -2,6 +2,7 @@ package com.wemanity.scrumbox.android.gui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -9,11 +10,10 @@ import com.wemanity.scrumbox.android.gui.base.BaseFragment;
 
 public class FragmentHelper {
 
-    public static void switchFragment(FragmentManager fm, Class<? extends BaseFragment> clazz, int layoutId, Bundle args){
+    public static void switchFragment(FragmentActivity activity, Class<? extends BaseFragment> clazz, int layoutId, Bundle args){
         try{
-            if (clazz == null){
-                return;
-            }
+
+            FragmentManager fm = activity.getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             String toTag = clazz.getSimpleName();
             Fragment toShow = fm.findFragmentByTag(toTag);
@@ -22,7 +22,6 @@ public class FragmentHelper {
                 toShow.setArguments(args);
                 ft.add(layoutId, toShow, toTag);
             } else {
-                //ft.show(toShow);
                 ft.attach(toShow);
             }
             Fragment toHide = fm.findFragmentById(layoutId);
@@ -30,12 +29,17 @@ public class FragmentHelper {
                 ft.detach(toHide);
             }
             ft.commit();
+            if (toShow instanceof ActiveBackButton) {
+                activity.getActionBar().setDisplayHomeAsUpEnabled(true);
+            } else {
+                activity.getActionBar().setDisplayHomeAsUpEnabled(false);
+            }
         } catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    public static void switchFragment(FragmentManager fm, Class<? extends BaseFragment> clazz, int layoutId){
-        switchFragment(fm,clazz,layoutId,null);
+    public static void switchFragment(FragmentActivity activity, Class<? extends BaseFragment> clazz, int layoutId){
+        switchFragment(activity,clazz,layoutId,null);
     }
 }

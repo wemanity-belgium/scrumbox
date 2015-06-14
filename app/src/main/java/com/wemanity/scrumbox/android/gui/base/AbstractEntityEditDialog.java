@@ -8,11 +8,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.wemanity.scrumbox.android.R;
 import com.wemanity.scrumbox.android.db.entity.Entity;
+import com.wemanity.scrumbox.android.gui.FragmentHelper;
+import com.wemanity.scrumbox.android.gui.daily.DailyEditDialog;
+
+import roboguice.fragment.RoboFragment;
 import roboguice.fragment.provided.RoboDialogFragment;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 
-public abstract class AbstractEntityEditDialog<T extends Entity> extends RoboDialogFragment implements View.OnClickListener{
+public abstract class AbstractEntityEditDialog<T extends Entity> extends BaseFragment implements View.OnClickListener{
 
     @InjectView(R.id.negativeButton)
     private TextView cancelButton;
@@ -61,7 +65,7 @@ public abstract class AbstractEntityEditDialog<T extends Entity> extends RoboDia
         cancelButton.setOnClickListener(this);
         saveButton.setOnClickListener(this);
         saveButton.setText(insertMode ? insert : save);
-        getDialog().setTitle(getTitle(insertMode, entity));
+        //getDialog().setTitle(getTitle(insertMode, entity));
     }
 
     protected abstract String getTitle(boolean insertMode, T entity);
@@ -81,11 +85,12 @@ public abstract class AbstractEntityEditDialog<T extends Entity> extends RoboDia
                         update(entity);
                     }
                     notifyEntityChangeListener();
-                    dismiss();
+	                FragmentHelper.switchFragment(getActivity(), getPreviusFragment(), R.id.fragmentFrameLayout);
                 }
                 break;
             case R.id.negativeButton:
-                dismiss();
+	            FragmentHelper.switchFragment(getActivity(),getPreviusFragment(), R.id.fragmentFrameLayout);
+                break;
         }
     }
 
@@ -108,4 +113,5 @@ public abstract class AbstractEntityEditDialog<T extends Entity> extends RoboDia
     public void setOnEntityChangeListener(OnEntityChangeListener<T> onEntityChangeListener) {
         this.onEntityChangeListener = onEntityChangeListener;
     }
+
 }

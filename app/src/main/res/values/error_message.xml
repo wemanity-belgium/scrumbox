@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_is_empty">Can\'t be empty!</string>
+    <string name="error_is_zero">Must be higher!</string>
+    <string name="error_no_participant">Nobody selected!</string>
+    <string name="error_nickname_use">Nickname already use</string>
+</resources>
